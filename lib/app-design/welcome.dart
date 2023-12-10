@@ -4,8 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'dart:ui';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/utils.dart';
 import '../main.dart';
@@ -14,7 +12,9 @@ import '../models/veloModele.dart';
 import '../service/links.dart';
 import 'listeScooter.dart';
 import 'listeVelo.dart';
-import 'onboarding.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
 
 class welcome extends StatefulWidget {
   @override
@@ -81,23 +81,70 @@ class _welcomeState extends State<welcome> {
   }
 
   Future patchElem(id, sommP) async {
+    if (sharedPref!.getInt("wallet")! > sommP) {
+      try {
+        String Url = "$updateVelo${id}";
+        print("$updateVelo${id}");
+        await http
+            .put(Uri.parse(Url),
+                headers: {
+                  "Accept": "application/json",
+                  "content-type": "application/json"
+                },
+                body: jsonEncode({"reserved": true}))
+            .then((response) {
+          if ((response.statusCode == 200) || response.statusCode == 201) {
+            patchUser(-sommP);
+            addReservation(sommP, id);
+            setState(() {
+              _Datas = getAll();
+              _Datas2 = getAll2();
+            });
+          } else {
+            print("error");
+          }
+        });
+      } catch (e) {
+        print(e.toString());
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "load your wallet first !!",
+          style: TextStyle(fontSize: 25),
+        ),
+        backgroundColor: Color(0xff7CDDC4),
+        elevation: 400,
+      ));
+    }
+  }
+  File? _selectedImage;
+  String? base64String;
+
+
+
+  Future updateImage() async {
     try {
-      String Url = "$updateVelo${id}";
-      print("$updateVelo${id}");
+      String Url = "$updateuser${sharedPref?.getString("id")}";
       await http
           .put(Uri.parse(Url),
-              headers: {
-                "Accept": "application/json",
-                "content-type": "application/json"
-              },
-              body: jsonEncode({"reserved": true}))
+          headers: {
+            "Accept": "application/json",
+            "content-type": "application/json"
+          },
+          body: jsonEncode({"image": base64String}))
           .then((response) {
         if ((response.statusCode == 200) || response.statusCode == 201) {
-          patchUser(-sommP);
-          addReservation(sommP, id);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "wallet updated !!",
+              style: TextStyle(fontSize: 25),
+            ),
+            backgroundColor: Color(0xff7CDDC4),
+            elevation: 400,
+          ));
           setState(() {
-            _Datas = getAll();
-            _Datas2 = getAll2();
+            profilData = getClientById();
           });
         } else {
           print("error");
@@ -107,6 +154,25 @@ class _welcomeState extends State<welcome> {
       print(e.toString());
     }
   }
+  Future _pickImageGallery() async  {
+    try {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _selectedImage = File(returnedImage!.path);
+    });
+    List<int> imageBytes = File(_selectedImage!.path).readAsBytesSync();
+    base64String = base64Encode(imageBytes);
+    if (base64String != null) {
+      updateImage();
+    }
+    } catch (e) {
+      print("Erreur : $e");
+    }
+  }
+
+
+
 
   Future patchUser(somme) async {
     try {
@@ -182,6 +248,7 @@ class _welcomeState extends State<welcome> {
   Future<profilModel> getClientById() async {
     String Url = "$getUserById${sharedPref?.getString("id")}";
     http.Response futureprofil = await http.get(Uri.parse(Url));
+    sharedPref?.setInt("wallet", jsonDecode(futureprofil.body)["wallet"]);
     if ((futureprofil.statusCode == 200) || (futureprofil.statusCode == 201)) {
       return profilModel.fromJson(json.decode(futureprofil.body));
     } else {
@@ -195,49 +262,54 @@ class _welcomeState extends State<welcome> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          // <-- SEE HERE
-          title: const Text('Code ticket'),
-          content: SingleChildScrollView(
-            child: Container(
-              width: 200,
-              child: TextFormField(
-                controller: Input_controller,
-                decoration: InputDecoration(
-                  fillColor: Colors.grey.shade100,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+        return Form(
+          key: _formKey,
+          child: AlertDialog(
+            // <-- SEE HERE
+            title: const Text('Code ticket'),
+            content: SingleChildScrollView(
+              child: Container(
+                width: 200,
+                child: TextFormField(
+                  controller: Input_controller,
+                  decoration: InputDecoration(
+                    fillColor: Colors.grey.shade100,
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
+                  validator: (val) {
+                    if (val!.length < 3) {
+                      return "error";
+                    } else {
+                      return "null";
+                    }
+                  },
                 ),
-                validator: (val) {
-                  if (val?.length == 0) {
-                    return "error";
-                  } else {
-                    return null;
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('No'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Load'),
+                onPressed: () {
+                  if (Input_controller.text.length > 3) {
+                    patchUser(sommeEx + 100);
+
+                    Timer(Duration(seconds: 3), () {
+                      Navigator.of(context).pop();
+                    });
                   }
                 },
               ),
-            ),
+            ],
           ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('No'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Load'),
-              onPressed: () {
-                patchUser(sommeEx + 100);
-
-                Timer(Duration(seconds: 3), () {
-                  Navigator.of(context).pop();
-                });
-              },
-            ),
-          ],
         );
       },
     );
@@ -309,10 +381,58 @@ class _welcomeState extends State<welcome> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              CircleAvatar(
-                                                backgroundImage: AssetImage(
-                                                    "assets/app-design/images/ameni.jpeg"),
-                                                radius: 50,
+                                              SizedBox(
+                                                height: 80,
+                                                width: 80,
+                                                child: Stack(
+                                                  fit: StackFit.expand,
+                                                  clipBehavior: Clip.none,
+                                                  children: [
+                                                    (snapshot.data!.image !=
+                                                            null)
+                                                        ? CircleAvatar(
+                                                            backgroundImage: MemoryImage(
+                                                                base64Decode(snapshot
+                                                                        .data!
+                                                                        .image ??
+                                                                    "")))
+                                                        : CircleAvatar(
+                                                            backgroundImage:
+                                                                AssetImage(
+                                                                    "assets/app-design/images/user.png"),
+                                                            radius: 40,
+                                                          ),
+                                                    Positioned(
+                                                        right: -16,
+                                                        bottom: 0,
+                                                        child: SizedBox(
+                                                            height: 36,
+                                                            width: 36,
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {
+                                                                _pickImageGallery();
+                                                              },
+                                                              style:
+                                                                  ElevatedButton
+                                                                      .styleFrom(
+                                                                shape:
+                                                                    CircleBorder(),
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(0),
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .blueGrey, // <-- Button color
+                                                                foregroundColor:
+                                                                    Colors
+                                                                        .white, // <-- Splash color
+                                                              ),
+                                                              child: Icon(Icons
+                                                                  .camera_alt_outlined),
+                                                            )))
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -325,7 +445,7 @@ class _welcomeState extends State<welcome> {
                                           margin: EdgeInsets.fromLTRB(0 * fem,
                                               0 * fem, 0 * fem, 8 * fem),
                                           child: Text(
-                                            'Hello ${snapshot.data!.username},',
+                                            'Hello ${snapshot.data!.username}',
                                             style: SafeGoogleFont(
                                               'Montserrat',
                                               fontSize: 32 * ffem,
@@ -757,7 +877,7 @@ class _welcomeState extends State<welcome> {
                                                               ),
                                                               Text(
                                                                 // m15Z (I0:559;0:1437)
-                                                                '${mesData[1].price} dt',
+                                                                '${mesData[1].price} dt/1h',
                                                                 textAlign:
                                                                     TextAlign
                                                                         .right,
@@ -965,7 +1085,7 @@ class _welcomeState extends State<welcome> {
                                                               ),
                                                               Text(
                                                                 // m15Z (I0:559;0:1437)
-                                                                '${mesData[2].price} dt',
+                                                                '${mesData[2].price} dt/1h',
                                                                 textAlign:
                                                                     TextAlign
                                                                         .right,
@@ -1277,7 +1397,7 @@ class _welcomeState extends State<welcome> {
                                                               ),
                                                               Text(
                                                                 // m15Z (I0:559;0:1437)
-                                                                '${mesData2[1].price} dt',
+                                                                '${mesData2[1].price} dt/1h',
                                                                 textAlign:
                                                                     TextAlign
                                                                         .right,
@@ -1486,7 +1606,7 @@ class _welcomeState extends State<welcome> {
                                                               ),
                                                               Text(
                                                                 // m15Z (I0:559;0:1437)
-                                                                '${mesData2[2].price} dt',
+                                                                '${mesData2[2].price} dt/1h',
                                                                 textAlign:
                                                                     TextAlign
                                                                         .right,

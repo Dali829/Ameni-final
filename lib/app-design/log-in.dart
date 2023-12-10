@@ -45,6 +45,7 @@ class _LoginState extends State<Login> {
           }
 
           sharedPref?.setString("Role", "user");
+          sharedPref?.setInt("wallet", myresponse["wallet"]);
           sharedPref?.setString("id", myresponse["_id"]);
         } else {
           print("Error");

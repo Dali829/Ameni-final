@@ -1,5 +1,5 @@
 // Server Link
-const String linkServer = "http://192.168.1.9:8800/api";
+const String linkServer = "http://10.0.2.2:8800/api";
 // login User
 const String linkLogin = "$linkServer/auth/login";
 // register User

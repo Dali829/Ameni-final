@@ -8,6 +8,7 @@ import 'package:myapp/utils.dart';
 import '../main.dart';
 import '../models/profileModel.dart';
 import '../service/links.dart';
+import 'log-in.dart';
 
 class Scene6 extends StatefulWidget {
   @override
@@ -187,35 +188,151 @@ class _Scene6State extends State<Scene6> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Container(
-                                      // inputwhiteshadow1WgF (0:419)
-                                      margin: EdgeInsets.fromLTRB(0 * fem,
-                                          0 * fem, 1.5 * fem, 23 * fem),
-                                      width: 296 * fem,
-                                      height: 80 * fem,
+                                    Expanded(
                                       child: Container(
-                                        // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
-                                        margin: EdgeInsets.fromLTRB(0 * fem,
-                                            0 * fem, 24 * fem, 21 * fem),
-                                        width: 272 * fem,
-                                        height: 26 * fem,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Container(
-                                                  height: 20,
-                                                  width: 200,
-                                                  child: TextField(
-                                                    controller: Name_controller,
-                                                    decoration: InputDecoration(
-                                                        hintText:
-                                                            '${snapshot.data!.username}'),
+                                        // inputwhiteshadow1WgF (0:419)
+
+                                        child: Container(
+                                          // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
+                                          margin: EdgeInsets.fromLTRB(0 * fem,
+                                              0 * fem, 24 * fem, 21 * fem),
+                                          width: 272 * fem,
+                                          height: 26 * fem,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    height: 20,
+                                                    width: 140,
+                                                    child: TextField(
+                                                      controller:
+                                                          Name_controller,
+                                                      decoration: InputDecoration(
+                                                          hintText:
+                                                              '${snapshot.data!.username}'),
+                                                      style: SafeGoogleFont(
+                                                        'Montserrat',
+                                                        fontSize: 21 * ffem,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        height:
+                                                            1.2175 * ffem / fem,
+                                                        color:
+                                                            Color(0xff3d003e),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(Icons.mode_edit),
+                                                    onPressed: () {
+                                                      patchUser("username",
+                                                          Name_controller.text);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              Divider(
+                                                height: 10,
+                                                color: Colors.green,
+                                                thickness: 1,
+                                                indent: 0,
+                                                endIndent: 10,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Container(
+                                        width: 296 * fem,
+                                        height: 80 * fem,
+                                        child: Container(
+                                          // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
+                                          margin: EdgeInsets.fromLTRB(0 * fem,
+                                              0 * fem, 24 * fem, 21 * fem),
+                                          width: 272 * fem,
+                                          height: 26 * fem,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    height: 20,
+                                                    width: 140,
+                                                    child: TextField(
+                                                      controller:
+                                                          email_controller,
+                                                      decoration: InputDecoration(
+                                                          hintText:
+                                                              "${snapshot.data!.email}"),
+                                                      style: SafeGoogleFont(
+                                                        'Montserrat',
+                                                        fontSize: 21 * ffem,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        height:
+                                                            1.2175 * ffem / fem,
+                                                        color:
+                                                            Color(0xff3d003e),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  IconButton(
+                                                    icon: Icon(Icons.mode_edit),
+                                                    onPressed: () {
+                                                      patchUser(
+                                                          "email",
+                                                          email_controller
+                                                              .text);
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                              Divider(
+                                                height: 10,
+                                                color: Colors.green,
+                                                thickness: 1,
+                                                indent: 0,
+                                                endIndent: 10,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    /*Expanded(
+                                      child: Container(
+                                        width: 296 * fem,
+                                        height: 80 * fem,
+                                        child: Container(
+                                          // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
+                                          margin: EdgeInsets.fromLTRB(0 * fem,
+                                              0 * fem, 24 * fem, 21 * fem),
+                                          width: 272 * fem,
+                                          height: 26 * fem,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    '22 444 666',
                                                     style: SafeGoogleFont(
                                                       'Montserrat',
                                                       fontSize: 21 * ffem,
@@ -226,194 +343,82 @@ class _Scene6State extends State<Scene6> {
                                                       color: Color(0xff3d003e),
                                                     ),
                                                   ),
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(Icons.mode_edit),
-                                                  onPressed: () {
-                                                    patchUser("username",
-                                                        Name_controller.text);
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                            Divider(
-                                              height: 10,
-                                              color: Colors.green,
-                                              thickness: 1,
-                                              indent: 0,
-                                              endIndent: 10,
-                                            ),
-                                          ],
+                                                  Icon(Icons.mode_edit),
+                                                ],
+                                              ),
+                                              Divider(
+                                                height: 10,
+                                                color: Colors.green,
+                                                thickness: 1,
+                                                indent: 0,
+                                                endIndent: 10,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      // inputwhiteshadow1WgF (0:419)
-                                      margin: EdgeInsets.fromLTRB(0 * fem,
-                                          0 * fem, 1.5 * fem, 23 * fem),
-                                      width: 296 * fem,
-                                      height: 80 * fem,
+                                    ),*/
+                                    Expanded(
                                       child: Container(
-                                        // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
-                                        margin: EdgeInsets.fromLTRB(0 * fem,
-                                            0 * fem, 24 * fem, 21 * fem),
-                                        width: 272 * fem,
-                                        height: 26 * fem,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Container(
-                                                  height: 20,
-                                                  width: 200,
-                                                  child: TextField(
-                                                    controller:
-                                                        email_controller,
-                                                    decoration: InputDecoration(
-                                                        hintText:
-                                                            "${snapshot.data!.email}"),
-                                                    style: SafeGoogleFont(
-                                                      'Montserrat',
-                                                      fontSize: 21 * ffem,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      height:
-                                                          1.2175 * ffem / fem,
-                                                      color: Color(0xff3d003e),
+                                        width: 296 * fem,
+                                        height: 80 * fem,
+                                        child: Container(
+                                          // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
+                                          margin: EdgeInsets.fromLTRB(0 * fem,
+                                              0 * fem, 24 * fem, 21 * fem),
+                                          width: 272 * fem,
+                                          height: 26 * fem,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Container(
+                                                    height: 20,
+                                                    width: 140,
+                                                    child: TextField(
+                                                      controller:
+                                                          password_controller,
+                                                      decoration:
+                                                          new InputDecoration(
+                                                              hintText:
+                                                                  'password'),
+                                                      style: SafeGoogleFont(
+                                                        'Montserrat',
+                                                        fontSize: 21 * ffem,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        height:
+                                                            1.2175 * ffem / fem,
+                                                        color:
+                                                            Color(0xff3d003e),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(Icons.mode_edit),
-                                                  onPressed: () {
-                                                    patchUser("email",
-                                                        email_controller.text);
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                            Divider(
-                                              height: 10,
-                                              color: Colors.green,
-                                              thickness: 1,
-                                              indent: 0,
-                                              endIndent: 10,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      // inputwhiteshadow1WgF (0:419)
-                                      margin: EdgeInsets.fromLTRB(0 * fem,
-                                          0 * fem, 1.5 * fem, 23 * fem),
-                                      width: 296 * fem,
-                                      height: 80 * fem,
-                                      child: Container(
-                                        // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
-                                        margin: EdgeInsets.fromLTRB(0 * fem,
-                                            0 * fem, 24 * fem, 21 * fem),
-                                        width: 272 * fem,
-                                        height: 26 * fem,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  '22 444 666',
-                                                  style: SafeGoogleFont(
-                                                    'Montserrat',
-                                                    fontSize: 21 * ffem,
-                                                    fontWeight: FontWeight.w400,
-                                                    height: 1.2175 * ffem / fem,
-                                                    color: Color(0xff3d003e),
+                                                  IconButton(
+                                                    icon: Icon(Icons.mode_edit),
+                                                    onPressed: () {
+                                                      patchUser(
+                                                          "password",
+                                                          password_controller
+                                                              .text);
+                                                    },
                                                   ),
-                                                ),
-                                                Icon(Icons.mode_edit),
-                                              ],
-                                            ),
-                                            Divider(
-                                              height: 10,
-                                              color: Colors.green,
-                                              thickness: 1,
-                                              indent: 0,
-                                              endIndent: 10,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      // inputwhiteshadow1WgF (0:419)
-                                      margin: EdgeInsets.fromLTRB(0 * fem,
-                                          0 * fem, 1.5 * fem, 23 * fem),
-                                      width: 296 * fem,
-                                      height: 80 * fem,
-                                      child: Container(
-                                        // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
-                                        margin: EdgeInsets.fromLTRB(0 * fem,
-                                            0 * fem, 24 * fem, 21 * fem),
-                                        width: 272 * fem,
-                                        height: 26 * fem,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Container(
-                                                  height: 20,
-                                                  width: 200,
-                                                  child: TextField(
-                                                    controller:
-                                                        password_controller,
-                                                    decoration:
-                                                        new InputDecoration(
-                                                            hintText:
-                                                                'password'),
-                                                    style: SafeGoogleFont(
-                                                      'Montserrat',
-                                                      fontSize: 21 * ffem,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      height:
-                                                          1.2175 * ffem / fem,
-                                                      color: Color(0xff3d003e),
-                                                    ),
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                  icon: Icon(Icons.mode_edit),
-                                                  onPressed: () {
-                                                    patchUser(
-                                                        "password",
-                                                        password_controller
-                                                            .text);
-                                                  },
-                                                ),
-                                              ],
-                                            ),
-                                            Divider(
-                                              height: 10,
-                                              color: Colors.green,
-                                              thickness: 1,
-                                              indent: 0,
-                                              endIndent: 10,
-                                            ),
-                                          ],
+                                                ],
+                                              ),
+                                              Divider(
+                                                height: 10,
+                                                color: Colors.green,
+                                                thickness: 1,
+                                                indent: 0,
+                                                endIndent: 10,
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -480,39 +485,50 @@ class _Scene6State extends State<Scene6> {
                                         ],
                                       ),
                                     ),
-                                    Container(
-                                      // autogroupzumrWdd (L986mt4z5ktBouD1ypzuMR)
-                                      margin: EdgeInsets.fromLTRB(0 * fem,
-                                          0 * fem, 163.5 * fem, 0 * fem),
-                                      width: double.infinity,
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Container(
-                                            // iconlogoutEJj (0:421)
-                                            margin: EdgeInsets.fromLTRB(0 * fem,
-                                                0 * fem, 20 * fem, 0 * fem),
-                                            width: 28 * fem,
-                                            height: 28 * fem,
-                                            child: Image.asset(
-                                              'assets/app-design/images/icon-log-out.png',
+                                    InkWell(
+                                      onTap: () {
+                                        sharedPref!.clear();
+                                        Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                                builder: (context) => Login()));
+                                      },
+                                      child: Container(
+                                        // autogroupzumrWdd (L986mt4z5ktBouD1ypzuMR)
+                                        margin: EdgeInsets.fromLTRB(0 * fem,
+                                            0 * fem, 163.5 * fem, 0 * fem),
+                                        width: double.infinity,
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              // iconlogoutEJj (0:421)
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0 * fem,
+                                                  0 * fem,
+                                                  20 * fem,
+                                                  0 * fem),
                                               width: 28 * fem,
                                               height: 28 * fem,
+                                              child: Image.asset(
+                                                'assets/app-design/images/icon-log-out.png',
+                                                width: 28 * fem,
+                                                height: 28 * fem,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            // logoutKLB (0:420)
-                                            'Log Out',
-                                            style: SafeGoogleFont(
-                                              'Montserrat',
-                                              fontSize: 21 * ffem,
-                                              fontWeight: FontWeight.w400,
-                                              height: 1.2175 * ffem / fem,
-                                              color: Color(0xff3d003e),
+                                            Text(
+                                              // logoutKLB (0:420)
+                                              'Log Out',
+                                              style: SafeGoogleFont(
+                                                'Montserrat',
+                                                fontSize: 21 * ffem,
+                                                fontWeight: FontWeight.w400,
+                                                height: 1.2175 * ffem / fem,
+                                                color: Color(0xff3d003e),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],

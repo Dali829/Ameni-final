@@ -275,7 +275,7 @@ class _ScooterListState extends State<ScooterList> {
                                                             ),
                                                             Text(
                                                               // m15Z (I0:559;0:1437)
-                                                              '${snapshot.data![index].price} dt',
+                                                              '${snapshot.data![index].price} dt/1h',
                                                               textAlign:
                                                                   TextAlign
                                                                       .right,
@@ -356,7 +356,7 @@ class _ScooterListState extends State<ScooterList> {
                                                           ),
                                                           Text(
                                                             // m15Z (I0:559;0:1437)
-                                                            '${snapshot.data![index].price} dt',
+                                                            '${snapshot.data![index].price} dt/1h',
                                                             textAlign:
                                                                 TextAlign.right,
                                                             style:
