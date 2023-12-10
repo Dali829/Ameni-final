@@ -15,7 +15,6 @@ import 'listeVelo.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
-
 class welcome extends StatefulWidget {
   @override
   State<welcome> createState() => _welcomeState();
@@ -118,21 +117,20 @@ class _welcomeState extends State<welcome> {
       ));
     }
   }
+
   File? _selectedImage;
   String? base64String;
-
-
 
   Future updateImage() async {
     try {
       String Url = "$updateuser${sharedPref?.getString("id")}";
       await http
           .put(Uri.parse(Url),
-          headers: {
-            "Accept": "application/json",
-            "content-type": "application/json"
-          },
-          body: jsonEncode({"image": base64String}))
+              headers: {
+                "Accept": "application/json",
+                "content-type": "application/json"
+              },
+              body: jsonEncode({"image": base64String}))
           .then((response) {
         if ((response.statusCode == 200) || response.statusCode == 201) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -154,25 +152,23 @@ class _welcomeState extends State<welcome> {
       print(e.toString());
     }
   }
-  Future _pickImageGallery() async  {
+
+  Future _pickImageGallery() async {
     try {
-    final returnedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      _selectedImage = File(returnedImage!.path);
-    });
-    List<int> imageBytes = File(_selectedImage!.path).readAsBytesSync();
-    base64String = base64Encode(imageBytes);
-    if (base64String != null) {
-      updateImage();
-    }
+      final returnedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      setState(() {
+        _selectedImage = File(returnedImage!.path);
+      });
+      List<int> imageBytes = File(_selectedImage!.path).readAsBytesSync();
+      base64String = base64Encode(imageBytes);
+      if (base64String != null) {
+        updateImage();
+      }
     } catch (e) {
       print("Erreur : $e");
     }
   }
-
-
-
 
   Future patchUser(somme) async {
     try {
@@ -338,230 +334,1908 @@ class _welcomeState extends State<welcome> {
     return MaterialApp(
       home: Scaffold(
         body: SingleChildScrollView(
-          child: Container(
-            width: double.infinity,
-            child: Container(
-                // welcomejh9 (0:554)
-                padding:
-                    EdgeInsets.fromLTRB(24 * fem, 32 * fem, 0 * fem, 46 * fem),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color(0xffffffff),
-                  gradient: LinearGradient(
-                    begin: Alignment(1.307, 1.613),
-                    end: Alignment(1.307, -1),
-                    colors: <Color>[Color(0xff2af598), Colors.white],
-                    stops: <double>[0, 1],
-                  ),
-                ),
-                child: FutureBuilder<profilModel>(
-                    future: profilData,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              // headerNEK (2:1121)
-                              margin: EdgeInsets.fromLTRB(
-                                  8 * fem, 0 * fem, 0 * fem, 33 * fem),
-                              width: 352.49 * fem,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 20),
-                                  (sharedPref?.getString("Role").toString() ==
-                                          "user")
-                                      ? Container(
-                                          // autogrouppxmyVZq (L98Go1YLyPFzSMRqy7PXMy)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 0 * fem, 17 * fem),
-                                          width: double.infinity,
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              SizedBox(
-                                                height: 80,
-                                                width: 80,
-                                                child: Stack(
-                                                  fit: StackFit.expand,
-                                                  clipBehavior: Clip.none,
-                                                  children: [
-                                                    (snapshot.data!.image !=
-                                                            null)
-                                                        ? CircleAvatar(
-                                                            backgroundImage: MemoryImage(
-                                                                base64Decode(snapshot
-                                                                        .data!
-                                                                        .image ??
-                                                                    "")))
-                                                        : CircleAvatar(
-                                                            backgroundImage:
-                                                                AssetImage(
-                                                                    "assets/app-design/images/user.png"),
-                                                            radius: 40,
+          child: Column(
+            children: [
+              SizedBox(height: 10),
+              (sharedPref?.getString("id") != null)
+                  ? Container(
+                      width: double.infinity,
+                      child: Container(
+                          // welcomejh9 (0:554)
+                          padding: EdgeInsets.fromLTRB(
+                              24 * fem, 32 * fem, 0 * fem, 46 * fem),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xffffffff),
+                            gradient: LinearGradient(
+                              begin: Alignment(1.307, 1.613),
+                              end: Alignment(1.307, -1),
+                              colors: <Color>[Color(0xff2af598), Colors.white],
+                              stops: <double>[0, 1],
+                            ),
+                          ),
+                          child: FutureBuilder<profilModel>(
+                              future: profilData,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        // headerNEK (2:1121)
+                                        margin: EdgeInsets.fromLTRB(8 * fem,
+                                            0 * fem, 0 * fem, 33 * fem),
+                                        width: 352.49 * fem,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(height: 20),
+                                            (sharedPref
+                                                        ?.getString("Role")
+                                                        .toString() ==
+                                                    "user")
+                                                ? Container(
+                                                    // autogrouppxmyVZq (L98Go1YLyPFzSMRqy7PXMy)
+                                                    margin: EdgeInsets.fromLTRB(
+                                                        0 * fem,
+                                                        0 * fem,
+                                                        0 * fem,
+                                                        17 * fem),
+                                                    width: double.infinity,
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        SizedBox(
+                                                          height: 80,
+                                                          width: 80,
+                                                          child: Stack(
+                                                            fit:
+                                                                StackFit.expand,
+                                                            clipBehavior:
+                                                                Clip.none,
+                                                            children: [
+                                                              (snapshot.data!
+                                                                          .image !=
+                                                                      null)
+                                                                  ? CircleAvatar(
+                                                                      backgroundImage:
+                                                                          MemoryImage(base64Decode(snapshot.data!.image ??
+                                                                              "")))
+                                                                  : CircleAvatar(
+                                                                      backgroundImage:
+                                                                          AssetImage(
+                                                                              "assets/app-design/images/user.png"),
+                                                                      radius:
+                                                                          40,
+                                                                    ),
+                                                              Positioned(
+                                                                  right: -16,
+                                                                  bottom: 0,
+                                                                  child: SizedBox(
+                                                                      height: 36,
+                                                                      width: 36,
+                                                                      child: ElevatedButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          _pickImageGallery();
+                                                                        },
+                                                                        style: ElevatedButton
+                                                                            .styleFrom(
+                                                                          shape:
+                                                                              CircleBorder(),
+                                                                          padding:
+                                                                              EdgeInsets.all(0),
+                                                                          backgroundColor:
+                                                                              Colors.blueGrey, // <-- Button color
+                                                                          foregroundColor:
+                                                                              Colors.white, // <-- Splash color
+                                                                        ),
+                                                                        child: Icon(
+                                                                            Icons.camera_alt_outlined),
+                                                                      )))
+                                                            ],
                                                           ),
-                                                    Positioned(
-                                                        right: -16,
-                                                        bottom: 0,
-                                                        child: SizedBox(
-                                                            height: 36,
-                                                            width: 36,
-                                                            child:
-                                                                ElevatedButton(
-                                                              onPressed: () {
-                                                                _pickImageGallery();
-                                                              },
-                                                              style:
-                                                                  ElevatedButton
-                                                                      .styleFrom(
-                                                                shape:
-                                                                    CircleBorder(),
-                                                                padding:
-                                                                    EdgeInsets
-                                                                        .all(0),
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .blueGrey, // <-- Button color
-                                                                foregroundColor:
-                                                                    Colors
-                                                                        .white, // <-- Splash color
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : Container(),
+                                            (sharedPref
+                                                        ?.getString("Role")
+                                                        .toString() ==
+                                                    "user")
+                                                ? Container(
+                                                    // hellolucasEfq (0:584)
+                                                    margin: EdgeInsets.fromLTRB(
+                                                        0 * fem,
+                                                        0 * fem,
+                                                        0 * fem,
+                                                        8 * fem),
+                                                    child: Text(
+                                                      'Hello ${snapshot.data!.username}',
+                                                      style: SafeGoogleFont(
+                                                        'Montserrat',
+                                                        fontSize: 32 * ffem,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        height:
+                                                            1.2175 * ffem / fem,
+                                                        color:
+                                                            Color(0xff3d003e),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(),
+                                            (sharedPref
+                                                        ?.getString("Role")
+                                                        .toString() ==
+                                                    "user")
+                                                ? Container(
+                                                    // wannatakearidetoXQ3 (0:583)
+                                                    width: double.infinity,
+                                                    child: Text(
+                                                      'Wanna take a ride today?',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: SafeGoogleFont(
+                                                        'Montserrat',
+                                                        fontSize: 18 * ffem,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        height:
+                                                            1.2175 * ffem / fem,
+                                                        color:
+                                                            Color(0xff3d003e),
+                                                      ),
+                                                    ),
+                                                  )
+                                                : Container(),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        // weatherreportdxs (2:1122)
+                                        margin: EdgeInsets.fromLTRB(0 * fem,
+                                            0 * fem, 0 * fem, 40 * fem),
+                                        padding: EdgeInsets.fromLTRB(0 * fem,
+                                            23 * fem, 0 * fem, 0 * fem),
+                                        width: 366 * fem,
+                                        decoration: BoxDecoration(
+                                          color: Color(0x7fffffff),
+                                          borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(24 * fem),
+                                            topRight: Radius.circular(24 * fem),
+                                            bottomRight:
+                                                Radius.circular(30 * fem),
+                                            bottomLeft:
+                                                Radius.circular(30 * fem),
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Color(0x28000000),
+                                              offset: Offset(0 * fem, 12 * fem),
+                                              blurRadius: 15 * fem,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              // autogroupm9yhTwu (L98G6SsbmueYVJ5TP8M9yh)
+                                              margin: EdgeInsets.fromLTRB(
+                                                  24 * fem,
+                                                  0 * fem,
+                                                  72 * fem,
+                                                  18.95 * fem),
+                                              width: double.infinity,
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Container(
+                                                    // cloudlynjH (0:571)
+                                                    margin: EdgeInsets.fromLTRB(
+                                                        0 * fem,
+                                                        0 * fem,
+                                                        24.16 * fem,
+                                                        0 * fem),
+                                                    width: 125.84 * fem,
+                                                    height: 95.05 * fem,
+                                                    child: Image.asset(
+                                                      'assets/app-design/images/cloudly.png',
+                                                      width: 125.84 * fem,
+                                                      height: 95.05 * fem,
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    // autogroupugijh5Z (L98GD2WyCAFUMukjK7Ugij)
+                                                    margin: EdgeInsets.fromLTRB(
+                                                        0 * fem,
+                                                        0 * fem,
+                                                        0 * fem,
+                                                        3.05 * fem),
+                                                    width: 120 * fem,
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          // autogroupksc7Qkf (L98GHmt4NKKPBSdpw8KSC7)
+                                                          margin: EdgeInsets
+                                                              .fromLTRB(
+                                                                  0 * fem,
+                                                                  0 * fem,
+                                                                  0 * fem,
+                                                                  5 * fem),
+                                                          width:
+                                                              double.infinity,
+                                                          child: Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .end,
+                                                            children: [
+                                                              Container(
+                                                                // k3q (0:570)
+                                                                margin: EdgeInsets
+                                                                    .fromLTRB(
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        6 * fem,
+                                                                        0 * fem),
+                                                                child: Text(
+                                                                  '18º',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style:
+                                                                      SafeGoogleFont(
+                                                                    'Montserrat',
+                                                                    fontSize:
+                                                                        32 *
+                                                                            ffem,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    height:
+                                                                        1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                    color: Color(
+                                                                        0xff3d003e),
+                                                                  ),
+                                                                ),
                                                               ),
-                                                              child: Icon(Icons
-                                                                  .camera_alt_outlined),
-                                                            )))
-                                                  ],
+                                                              Container(
+                                                                // cloudlydtK (0:569)
+                                                                margin: EdgeInsets
+                                                                    .fromLTRB(
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        3 * fem),
+                                                                child: Text(
+                                                                  'Cloudly',
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
+                                                                  style:
+                                                                      SafeGoogleFont(
+                                                                    'Montserrat',
+                                                                    fontSize:
+                                                                        18 *
+                                                                            ffem,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w400,
+                                                                    height:
+                                                                        1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                    color: Color(
+                                                                        0xff3d003e),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          // marbelladrx9u (0:568)
+                                                          'Marbella Dr',
+                                                          style: SafeGoogleFont(
+                                                            'Montserrat',
+                                                            fontSize: 18 * ffem,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            height: 1.2175 *
+                                                                ffem /
+                                                                fem,
+                                                            color: Color(
+                                                                0xff3d003e),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              // autogroupvtzu61D (L98GXS9xuaDLV9fLLMvtZu)
+                                              width: double.infinity,
+                                              height: 53 * fem,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xffd1ffef),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        26.5 * fem),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Color(0x28000000),
+                                                    offset: Offset(
+                                                        0 * fem, 12 * fem),
+                                                    blurRadius: 15 * fem,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  '${currentTime.day.toString()} ${months[currentTime.month - 1]} , ${DateFormat.EEEE().format(DateTime.now())}',
+                                                  textAlign: TextAlign.center,
+                                                  style: SafeGoogleFont(
+                                                    'Montserrat',
+                                                    fontSize: 18 * ffem,
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2175 * ffem / fem,
+                                                    color: Color(0xff3d003e),
+                                                  ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        )
-                                      : Container(),
-                                  (sharedPref?.getString("Role").toString() ==
-                                          "user")
-                                      ? Container(
-                                          // hellolucasEfq (0:584)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 0 * fem, 8 * fem),
-                                          child: Text(
-                                            'Hello ${snapshot.data!.username}',
-                                            style: SafeGoogleFont(
-                                              'Montserrat',
-                                              fontSize: 32 * ffem,
-                                              fontWeight: FontWeight.w600,
-                                              height: 1.2175 * ffem / fem,
-                                              color: Color(0xff3d003e),
                                             ),
-                                          ),
-                                        )
-                                      : Container(),
-                                  (sharedPref?.getString("Role").toString() ==
-                                          "user")
-                                      ? Container(
-                                          // wannatakearidetoXQ3 (0:583)
-                                          width: double.infinity,
-                                          child: Text(
-                                            'Wanna take a ride today?',
-                                            textAlign: TextAlign.center,
-                                            style: SafeGoogleFont(
-                                              'Montserrat',
-                                              fontSize: 18 * ffem,
-                                              fontWeight: FontWeight.w400,
-                                              height: 1.2175 * ffem / fem,
-                                              color: Color(0xff3d003e),
-                                            ),
-                                          ),
-                                        )
-                                      : Container(),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              // weatherreportdxs (2:1122)
-                              margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 0 * fem, 40 * fem),
-                              padding: EdgeInsets.fromLTRB(
-                                  0 * fem, 23 * fem, 0 * fem, 0 * fem),
-                              width: 366 * fem,
-                              decoration: BoxDecoration(
-                                color: Color(0x7fffffff),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(24 * fem),
-                                  topRight: Radius.circular(24 * fem),
-                                  bottomRight: Radius.circular(30 * fem),
-                                  bottomLeft: Radius.circular(30 * fem),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Color(0x28000000),
-                                    offset: Offset(0 * fem, 12 * fem),
-                                    blurRadius: 15 * fem,
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    // autogroupm9yhTwu (L98G6SsbmueYVJ5TP8M9yh)
-                                    margin: EdgeInsets.fromLTRB(24 * fem,
-                                        0 * fem, 72 * fem, 18.95 * fem),
-                                    width: double.infinity,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          // cloudlynjH (0:571)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 24.16 * fem, 0 * fem),
-                                          width: 125.84 * fem,
-                                          height: 95.05 * fem,
-                                          child: Image.asset(
-                                            'assets/app-design/images/cloudly.png',
-                                            width: 125.84 * fem,
-                                            height: 95.05 * fem,
-                                          ),
+                                          ],
                                         ),
-                                        Container(
-                                          // autogroupugijh5Z (L98GD2WyCAFUMukjK7Ugij)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 0 * fem, 3.05 * fem),
-                                          width: 120 * fem,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                // autogroupksc7Qkf (L98GHmt4NKKPBSdpw8KSC7)
-                                                margin: EdgeInsets.fromLTRB(
-                                                    0 * fem,
-                                                    0 * fem,
-                                                    0 * fem,
-                                                    5 * fem),
-                                                width: double.infinity,
-                                                child: Row(
+                                      ),
+                                      FutureBuilder<List<BicycleModel>>(
+                                          future: _Datas,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Container(
+                                                // cardswGj (2:1123)
+                                                width: 668 * fem,
+                                                child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.end,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Container(
-                                                      // k3q (0:570)
+                                                      // autogroup2zifgk7 (L98F79BkYCNtHFizEn2Zif)
                                                       margin:
                                                           EdgeInsets.fromLTRB(
                                                               0 * fem,
                                                               0 * fem,
-                                                              6 * fem,
+                                                              0 * fem,
+                                                              20 * fem),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          Navigator.of(context).push(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          VeloList()));
+                                                        },
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            Container(
+                                                              // nearyouQg7 (0:557)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      136 * fem,
+                                                                      0 * fem),
+                                                              child: Text(
+                                                                'bicycles ',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    SafeGoogleFont(
+                                                                  'Montserrat',
+                                                                  fontSize:
+                                                                      21 * ffem,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  height:
+                                                                      1.2175 *
+                                                                          ffem /
+                                                                          fem,
+                                                                  color: Color(
+                                                                      0xff3d003e),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              // browsemap86K (0:558)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      10.36 *
+                                                                          fem,
+                                                                      0 * fem),
+                                                              child: Text(
+                                                                'more',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                style:
+                                                                    SafeGoogleFont(
+                                                                  'Montserrat',
+                                                                  fontSize:
+                                                                      18 * ffem,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  height:
+                                                                      1.2175 *
+                                                                          ffem /
+                                                                          fem,
+                                                                  color: Color(
+                                                                      0xff3d003e),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              // iconchevronleftEf9 (0:561)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      2 * fem),
+                                                              width: 8.64 * fem,
+                                                              height:
+                                                                  17.28 * fem,
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/app-design/images/icon-chevron-left-Kpj.png',
+                                                                width:
+                                                                    8.64 * fem,
+                                                                height:
+                                                                    17.28 * fem,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      // autogroup6uqdk7h (L98FF48EVnpjeUXUwU6Uqd)
+                                                      width: double.infinity,
+                                                      height: 374 * fem,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              // card16BZ (I0:559;0:1430)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      24 * fem,
+                                                                      0 * fem),
+                                                              padding: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      22 * fem,
+                                                                      27 * fem,
+                                                                      22 * fem,
+                                                                      18 * fem),
+                                                              width: 322 * fem,
+                                                              height: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Color(
+                                                                    0xffffffff),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(24 *
+                                                                            fem),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Color(
+                                                                        0x28000000),
+                                                                    offset: Offset(
+                                                                        0 * fem,
+                                                                        12 *
+                                                                            fem),
+                                                                    blurRadius:
+                                                                        15 *
+                                                                            fem,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    // bitmapLbh (I0:559;0:1438)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        19.31 *
+                                                                            fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        26 *
+                                                                            fem),
+                                                                    width: 230 *
+                                                                        fem,
+                                                                    height:
+                                                                        132 *
+                                                                            fem,
+                                                                    child: Image
+                                                                        .network(
+                                                                      mesData[1]
+                                                                          .photos
+                                                                          .first,
+                                                                    ),
+                                                                  ),
+                                                                  InkWell(
+                                                                    onTap: () {
+                                                                      patchElem(
+                                                                          mesData[1]
+                                                                              .id,
+                                                                          mesData[1]
+                                                                              .price);
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      // distance4nb (I0:559;0:1434)
+                                                                      margin: EdgeInsets.fromLTRB(
+                                                                          0 *
+                                                                              fem,
+                                                                          0 *
+                                                                              fem,
+                                                                          82 *
+                                                                              fem,
+                                                                          17 *
+                                                                              fem),
+                                                                      padding: EdgeInsets.fromLTRB(
+                                                                          31 *
+                                                                              fem,
+                                                                          14 *
+                                                                              fem,
+                                                                          36 *
+                                                                              fem,
+                                                                          15 *
+                                                                              fem),
+                                                                      width: double
+                                                                          .infinity,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(27.5 *
+                                                                                fem),
+                                                                        gradient:
+                                                                            LinearGradient(
+                                                                          begin: Alignment(
+                                                                              1.307,
+                                                                              1.613),
+                                                                          end: Alignment(
+                                                                              1.307,
+                                                                              -1),
+                                                                          colors: <
+                                                                              Color>[
+                                                                            Color(0xff009efd),
+                                                                            Color(0xff2af598)
+                                                                          ],
+                                                                          stops: <
+                                                                              double>[
+                                                                            0,
+                                                                            1
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          Row(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Container(
+                                                                            // distanceWeb (I0:559;0:1436)
+                                                                            margin: EdgeInsets.fromLTRB(
+                                                                                0 * fem,
+                                                                                0 * fem,
+                                                                                8 * fem,
+                                                                                0 * fem),
+                                                                            child:
+                                                                                Text(
+                                                                              'rent',
+                                                                              textAlign: TextAlign.right,
+                                                                              style: SafeGoogleFont(
+                                                                                'Montserrat',
+                                                                                fontSize: 16 * ffem,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                height: 1.2175 * ffem / fem,
+                                                                                color: Color(0xff3d003e),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            // m15Z (I0:559;0:1437)
+                                                                            '${mesData[1].price} dt/1h',
+                                                                            textAlign:
+                                                                                TextAlign.right,
+                                                                            style:
+                                                                                SafeGoogleFont(
+                                                                              'Montserrat',
+                                                                              fontSize: 21 * ffem,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              height: 1.2175 * ffem / fem,
+                                                                              color: Color(0xff3d003e),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    // haibikesdurofullseLdd (I0:559;0:1433)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        2 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        5 * fem),
+                                                                    child: Text(
+                                                                      mesData[1]
+                                                                          .name,
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            18 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    // available3H9 (I0:559;0:1432)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        2 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem),
+                                                                    child: Text(
+                                                                      '1 Available',
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            18 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              // card16BZ (I0:559;0:1430)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      24 * fem,
+                                                                      0 * fem),
+                                                              padding: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      22 * fem,
+                                                                      27 * fem,
+                                                                      22 * fem,
+                                                                      18 * fem),
+                                                              width: 322 * fem,
+                                                              height: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Color(
+                                                                    0xffffffff),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(24 *
+                                                                            fem),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Color(
+                                                                        0x28000000),
+                                                                    offset: Offset(
+                                                                        0 * fem,
+                                                                        12 *
+                                                                            fem),
+                                                                    blurRadius:
+                                                                        15 *
+                                                                            fem,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    // bitmapLbh (I0:559;0:1438)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        19.31 *
+                                                                            fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        26 *
+                                                                            fem),
+                                                                    width: 230 *
+                                                                        fem,
+                                                                    height:
+                                                                        132 *
+                                                                            fem,
+                                                                    child: Image
+                                                                        .network(
+                                                                      mesData[2]
+                                                                          .photos
+                                                                          .first,
+                                                                    ),
+                                                                  ),
+                                                                  InkWell(
+                                                                    onTap: () {
+                                                                      patchElem(
+                                                                          mesData[2]
+                                                                              .id,
+                                                                          mesData[2]
+                                                                              .price);
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      // distance4nb (I0:559;0:1434)
+                                                                      margin: EdgeInsets.fromLTRB(
+                                                                          0 *
+                                                                              fem,
+                                                                          0 *
+                                                                              fem,
+                                                                          82 *
+                                                                              fem,
+                                                                          17 *
+                                                                              fem),
+                                                                      padding: EdgeInsets.fromLTRB(
+                                                                          31 *
+                                                                              fem,
+                                                                          14 *
+                                                                              fem,
+                                                                          36 *
+                                                                              fem,
+                                                                          15 *
+                                                                              fem),
+                                                                      width: double
+                                                                          .infinity,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(27.5 *
+                                                                                fem),
+                                                                        gradient:
+                                                                            LinearGradient(
+                                                                          begin: Alignment(
+                                                                              1.307,
+                                                                              1.613),
+                                                                          end: Alignment(
+                                                                              1.307,
+                                                                              -1),
+                                                                          colors: <
+                                                                              Color>[
+                                                                            Color(0xff009efd),
+                                                                            Color(0xff2af598)
+                                                                          ],
+                                                                          stops: <
+                                                                              double>[
+                                                                            0,
+                                                                            1
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          Row(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Container(
+                                                                            // distanceWeb (I0:559;0:1436)
+                                                                            margin: EdgeInsets.fromLTRB(
+                                                                                0 * fem,
+                                                                                0 * fem,
+                                                                                8 * fem,
+                                                                                0 * fem),
+                                                                            child:
+                                                                                Text(
+                                                                              'rent',
+                                                                              textAlign: TextAlign.right,
+                                                                              style: SafeGoogleFont(
+                                                                                'Montserrat',
+                                                                                fontSize: 16 * ffem,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                height: 1.2175 * ffem / fem,
+                                                                                color: Color(0xff3d003e),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            // m15Z (I0:559;0:1437)
+                                                                            '${mesData[2].price} dt/1h',
+                                                                            textAlign:
+                                                                                TextAlign.right,
+                                                                            style:
+                                                                                SafeGoogleFont(
+                                                                              'Montserrat',
+                                                                              fontSize: 21 * ffem,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              height: 1.2175 * ffem / fem,
+                                                                              color: Color(0xff3d003e),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    // haibikesdurofullseLdd (I0:559;0:1433)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        2 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        5 * fem),
+                                                                    child: Text(
+                                                                      mesData[2]
+                                                                          .name,
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            18 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    // available3H9 (I0:559;0:1432)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        2 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem),
+                                                                    child: Text(
+                                                                      '1 Available',
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            18 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            } else if (snapshot.hasError) {
+                                              return Text(
+                                                  "Verifer votre connexion",
+                                                  style:
+                                                      TextStyle(fontSize: 30));
+                                            }
+                                            return CircularProgressIndicator();
+                                          }),
+                                      FutureBuilder<List<BicycleModel>>(
+                                          future: _Datas2,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Container(
+                                                // cardswGj (2:1123)
+                                                width: 668 * fem,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Container(
+                                                      // autogroup2zifgk7 (L98F79BkYCNtHFizEn2Zif)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              20 * fem),
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          Navigator.of(context).push(
+                                                              MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          ScooterList()));
+                                                        },
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          children: [
+                                                            Container(
+                                                              // nearyouQg7 (0:557)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      136 * fem,
+                                                                      0 * fem),
+                                                              child: Text(
+                                                                'scooters ',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    SafeGoogleFont(
+                                                                  'Montserrat',
+                                                                  fontSize:
+                                                                      21 * ffem,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  height:
+                                                                      1.2175 *
+                                                                          ffem /
+                                                                          fem,
+                                                                  color: Color(
+                                                                      0xff3d003e),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              // browsemap86K (0:558)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      10.36 *
+                                                                          fem,
+                                                                      0 * fem),
+                                                              child: Text(
+                                                                'more',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .right,
+                                                                style:
+                                                                    SafeGoogleFont(
+                                                                  'Montserrat',
+                                                                  fontSize:
+                                                                      18 * ffem,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  height:
+                                                                      1.2175 *
+                                                                          ffem /
+                                                                          fem,
+                                                                  color: Color(
+                                                                      0xff3d003e),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              // iconchevronleftEf9 (0:561)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      2 * fem),
+                                                              width: 8.64 * fem,
+                                                              height:
+                                                                  17.28 * fem,
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/app-design/images/icon-chevron-left-Kpj.png',
+                                                                width:
+                                                                    8.64 * fem,
+                                                                height:
+                                                                    17.28 * fem,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      // autogroup6uqdk7h (L98FF48EVnpjeUXUwU6Uqd)
+                                                      width: double.infinity,
+                                                      height: 374 * fem,
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        scrollDirection:
+                                                            Axis.horizontal,
+                                                        child: Row(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Container(
+                                                              // card16BZ (I0:559;0:1430)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      24 * fem,
+                                                                      0 * fem),
+                                                              padding: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      22 * fem,
+                                                                      27 * fem,
+                                                                      22 * fem,
+                                                                      18 * fem),
+                                                              width: 322 * fem,
+                                                              height: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Color(
+                                                                    0xffffffff),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(24 *
+                                                                            fem),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Color(
+                                                                        0x28000000),
+                                                                    offset: Offset(
+                                                                        0 * fem,
+                                                                        12 *
+                                                                            fem),
+                                                                    blurRadius:
+                                                                        15 *
+                                                                            fem,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    // bitmapLbh (I0:559;0:1438)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        19.31 *
+                                                                            fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        26 *
+                                                                            fem),
+                                                                    width: 230 *
+                                                                        fem,
+                                                                    height:
+                                                                        132 *
+                                                                            fem,
+                                                                    child: Image
+                                                                        .network(
+                                                                      mesData2[
+                                                                              1]
+                                                                          .photos
+                                                                          .first,
+                                                                    ),
+                                                                  ),
+                                                                  InkWell(
+                                                                    onTap: () {
+                                                                      patchElem(
+                                                                          mesData2[1]
+                                                                              .id,
+                                                                          mesData2[1]
+                                                                              .price);
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      // distance4nb (I0:559;0:1434)
+                                                                      margin: EdgeInsets.fromLTRB(
+                                                                          0 *
+                                                                              fem,
+                                                                          0 *
+                                                                              fem,
+                                                                          82 *
+                                                                              fem,
+                                                                          17 *
+                                                                              fem),
+                                                                      padding: EdgeInsets.fromLTRB(
+                                                                          31 *
+                                                                              fem,
+                                                                          14 *
+                                                                              fem,
+                                                                          36 *
+                                                                              fem,
+                                                                          15 *
+                                                                              fem),
+                                                                      width: double
+                                                                          .infinity,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(27.5 *
+                                                                                fem),
+                                                                        gradient:
+                                                                            LinearGradient(
+                                                                          begin: Alignment(
+                                                                              1.307,
+                                                                              1.613),
+                                                                          end: Alignment(
+                                                                              1.307,
+                                                                              -1),
+                                                                          colors: <
+                                                                              Color>[
+                                                                            Color(0xff009efd),
+                                                                            Color(0xff2af598)
+                                                                          ],
+                                                                          stops: <
+                                                                              double>[
+                                                                            0,
+                                                                            1
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          Row(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Container(
+                                                                            // distanceWeb (I0:559;0:1436)
+                                                                            margin: EdgeInsets.fromLTRB(
+                                                                                0 * fem,
+                                                                                0 * fem,
+                                                                                8 * fem,
+                                                                                0 * fem),
+                                                                            child:
+                                                                                Text(
+                                                                              'rent',
+                                                                              textAlign: TextAlign.right,
+                                                                              style: SafeGoogleFont(
+                                                                                'Montserrat',
+                                                                                fontSize: 16 * ffem,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                height: 1.2175 * ffem / fem,
+                                                                                color: Color(0xff3d003e),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            // m15Z (I0:559;0:1437)
+                                                                            '${mesData2[1].price} dt/1h',
+                                                                            textAlign:
+                                                                                TextAlign.right,
+                                                                            style:
+                                                                                SafeGoogleFont(
+                                                                              'Montserrat',
+                                                                              fontSize: 21 * ffem,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              height: 1.2175 * ffem / fem,
+                                                                              color: Color(0xff3d003e),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    // haibikesdurofullseLdd (I0:559;0:1433)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        2 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        5 * fem),
+                                                                    child: Text(
+                                                                      mesData2[
+                                                                              1]
+                                                                          .name,
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            18 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    // available3H9 (I0:559;0:1432)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        2 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem),
+                                                                    child: Text(
+                                                                      '1 Available',
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            18 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              // card16BZ (I0:559;0:1430)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      24 * fem,
+                                                                      0 * fem),
+                                                              padding: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      22 * fem,
+                                                                      27 * fem,
+                                                                      22 * fem,
+                                                                      18 * fem),
+                                                              width: 322 * fem,
+                                                              height: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Color(
+                                                                    0xffffffff),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(24 *
+                                                                            fem),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Color(
+                                                                        0x28000000),
+                                                                    offset: Offset(
+                                                                        0 * fem,
+                                                                        12 *
+                                                                            fem),
+                                                                    blurRadius:
+                                                                        15 *
+                                                                            fem,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Container(
+                                                                    // bitmapLbh (I0:559;0:1438)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        19.31 *
+                                                                            fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        26 *
+                                                                            fem),
+                                                                    width: 230 *
+                                                                        fem,
+                                                                    height:
+                                                                        132 *
+                                                                            fem,
+                                                                    child: Image
+                                                                        .network(
+                                                                      mesData2[
+                                                                              2]
+                                                                          .photos
+                                                                          .first,
+                                                                    ),
+                                                                  ),
+                                                                  InkWell(
+                                                                    onTap: () {
+                                                                      patchElem(
+                                                                          mesData2[2]
+                                                                              .id,
+                                                                          mesData2[2]
+                                                                              .price);
+                                                                    },
+                                                                    child:
+                                                                        Container(
+                                                                      // distance4nb (I0:559;0:1434)
+                                                                      margin: EdgeInsets.fromLTRB(
+                                                                          0 *
+                                                                              fem,
+                                                                          0 *
+                                                                              fem,
+                                                                          82 *
+                                                                              fem,
+                                                                          17 *
+                                                                              fem),
+                                                                      padding: EdgeInsets.fromLTRB(
+                                                                          31 *
+                                                                              fem,
+                                                                          14 *
+                                                                              fem,
+                                                                          36 *
+                                                                              fem,
+                                                                          15 *
+                                                                              fem),
+                                                                      width: double
+                                                                          .infinity,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(27.5 *
+                                                                                fem),
+                                                                        gradient:
+                                                                            LinearGradient(
+                                                                          begin: Alignment(
+                                                                              1.307,
+                                                                              1.613),
+                                                                          end: Alignment(
+                                                                              1.307,
+                                                                              -1),
+                                                                          colors: <
+                                                                              Color>[
+                                                                            Color(0xff009efd),
+                                                                            Color(0xff2af598)
+                                                                          ],
+                                                                          stops: <
+                                                                              double>[
+                                                                            0,
+                                                                            1
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      child:
+                                                                          Row(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Container(
+                                                                            // distanceWeb (I0:559;0:1436)
+                                                                            margin: EdgeInsets.fromLTRB(
+                                                                                0 * fem,
+                                                                                0 * fem,
+                                                                                8 * fem,
+                                                                                0 * fem),
+                                                                            child:
+                                                                                Text(
+                                                                              'rent',
+                                                                              textAlign: TextAlign.right,
+                                                                              style: SafeGoogleFont(
+                                                                                'Montserrat',
+                                                                                fontSize: 16 * ffem,
+                                                                                fontWeight: FontWeight.w400,
+                                                                                height: 1.2175 * ffem / fem,
+                                                                                color: Color(0xff3d003e),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            // m15Z (I0:559;0:1437)
+                                                                            '${mesData2[2].price} dt/1h',
+                                                                            textAlign:
+                                                                                TextAlign.right,
+                                                                            style:
+                                                                                SafeGoogleFont(
+                                                                              'Montserrat',
+                                                                              fontSize: 21 * ffem,
+                                                                              fontWeight: FontWeight.w600,
+                                                                              height: 1.2175 * ffem / fem,
+                                                                              color: Color(0xff3d003e),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    // haibikesdurofullseLdd (I0:559;0:1433)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        2 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        5 * fem),
+                                                                    child: Text(
+                                                                      mesData2[
+                                                                              2]
+                                                                          .name,
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            18 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    // available3H9 (I0:559;0:1432)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        2 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        0 * fem),
+                                                                    child: Text(
+                                                                      '1 Available',
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            18 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w600,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            } else if (snapshot.hasError) {
+                                              return Text(
+                                                  "Verifer votre connexion",
+                                                  style:
+                                                      TextStyle(fontSize: 30));
+                                            }
+                                            return CircularProgressIndicator();
+                                          }),
+                                      SizedBox(height: 50),
+                                      (sharedPref
+                                                  ?.getString("Role")
+                                                  .toString() ==
+                                              "user")
+                                          ? Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0 * fem,
+                                                  40 * fem,
+                                                  25 * fem,
+                                                  0 * fem),
+                                              child: Card(
+                                                // Set the shape of the card using a rounded rectangle border with a 8 pixel radius
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                // Set the clip behavior of the card
+                                                clipBehavior:
+                                                    Clip.antiAliasWithSaveLayer,
+                                                // Define the child widgets of the card
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    // Display an image at the top of the card that fills the width of the card and has a height of 160 pixels
+                                                    Image.asset(
+                                                      'assets/app-design/images/2902191.jpg',
+                                                      height: 160,
+                                                      width: double.infinity,
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                    // Add a container with padding that contains the card's title, text, and buttons
+                                                    Container(
+                                                      color: Colors.grey[200],
+                                                      padding: const EdgeInsets
+                                                              .fromLTRB(
+                                                          15, 15, 15, 0),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          // Display the card's title using a font size of 24 and a dark grey color
+                                                          Text(
+                                                            "My Wallet",
+                                                            style: TextStyle(
+                                                              fontSize: 24,
+                                                              color: Colors
+                                                                  .grey[800],
+                                                            ),
+                                                          ),
+                                                          // Add a space between the title and the text
+                                                          Container(height: 10),
+                                                          // Display the card's text using a font size of 15 and a light grey color
+                                                          Text(
+                                                            '${snapshot.data!.wallet} DT',
+                                                            style: TextStyle(
+                                                              fontSize: 25,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                          // Add a row with two buttons spaced apart and aligned to the right side of the card
+                                                          Row(
+                                                            children: <Widget>[
+                                                              // Add a spacer to push the buttons to the right side of the card
+                                                              const Spacer(),
+                                                              // Add a text button labeled "SHARE" with transparent foreground color and an accent color for the text
+                                                              TextButton(
+                                                                style: TextButton
+                                                                    .styleFrom(
+                                                                  foregroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                ),
+                                                                child:
+                                                                    const Text(
+                                                                  "SHARE",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                onPressed:
+                                                                    () {},
+                                                              ),
+                                                              // Add a text button labeled "EXPLORE" with transparent foreground color and an accent color for the text
+                                                              TextButton(
+                                                                style: TextButton
+                                                                    .styleFrom(
+                                                                  foregroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                ),
+                                                                child:
+                                                                    const Text(
+                                                                  "load my wallet",
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                onPressed: () {
+                                                                  _showAlertDialog(
+                                                                      snapshot
+                                                                          .data!
+                                                                          .wallet);
+                                                                },
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    // Add a small space between the card and the next widget
+                                                  ],
+                                                ),
+                                              ),
+                                            )
+                                          : Container(),
+                                    ],
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Text("Verifer votre connexion",
+                                      style: TextStyle(fontSize: 30));
+                                }
+                                return CircularProgressIndicator();
+                              })),
+                    )
+                  : Container(
+                      width: double.infinity,
+                      child: Container(
+                          // welcomejh9 (0:554)
+                          padding: EdgeInsets.fromLTRB(
+                              24 * fem, 32 * fem, 0 * fem, 46 * fem),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xffffffff),
+                            gradient: LinearGradient(
+                              begin: Alignment(1.307, 1.613),
+                              end: Alignment(1.307, -1),
+                              colors: <Color>[Color(0xff2af598), Colors.white],
+                              stops: <double>[0, 1],
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                // weatherreportdxs (2:1122)
+                                margin: EdgeInsets.fromLTRB(
+                                    0 * fem, 0 * fem, 0 * fem, 40 * fem),
+                                padding: EdgeInsets.fromLTRB(
+                                    0 * fem, 23 * fem, 0 * fem, 0 * fem),
+                                width: 366 * fem,
+                                decoration: BoxDecoration(
+                                  color: Color(0x7fffffff),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(24 * fem),
+                                    topRight: Radius.circular(24 * fem),
+                                    bottomRight: Radius.circular(30 * fem),
+                                    bottomLeft: Radius.circular(30 * fem),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Color(0x28000000),
+                                      offset: Offset(0 * fem, 12 * fem),
+                                      blurRadius: 15 * fem,
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      // autogroupm9yhTwu (L98G6SsbmueYVJ5TP8M9yh)
+                                      margin: EdgeInsets.fromLTRB(24 * fem,
+                                          0 * fem, 72 * fem, 18.95 * fem),
+                                      width: double.infinity,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            // cloudlynjH (0:571)
+                                            margin: EdgeInsets.fromLTRB(0 * fem,
+                                                0 * fem, 24.16 * fem, 0 * fem),
+                                            width: 125.84 * fem,
+                                            height: 95.05 * fem,
+                                            child: Image.asset(
+                                              'assets/app-design/images/cloudly.png',
+                                              width: 125.84 * fem,
+                                              height: 95.05 * fem,
+                                            ),
+                                          ),
+                                          Container(
+                                            // autogroupugijh5Z (L98GD2WyCAFUMukjK7Ugij)
+                                            margin: EdgeInsets.fromLTRB(0 * fem,
+                                                0 * fem, 0 * fem, 3.05 * fem),
+                                            width: 120 * fem,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  // autogroupksc7Qkf (L98GHmt4NKKPBSdpw8KSC7)
+                                                  margin: EdgeInsets.fromLTRB(
+                                                      0 * fem,
+                                                      0 * fem,
+                                                      0 * fem,
+                                                      5 * fem),
+                                                  width: double.infinity,
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.end,
+                                                    children: [
+                                                      Container(
+                                                        // k3q (0:570)
+                                                        margin:
+                                                            EdgeInsets.fromLTRB(
+                                                                0 * fem,
+                                                                0 * fem,
+                                                                6 * fem,
+                                                                0 * fem),
+                                                        child: Text(
+                                                          '18º',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: SafeGoogleFont(
+                                                            'Montserrat',
+                                                            fontSize: 32 * ffem,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            height: 1.2175 *
+                                                                ffem /
+                                                                fem,
+                                                            color: Color(
+                                                                0xff3d003e),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        // cloudlydtK (0:569)
+                                                        margin:
+                                                            EdgeInsets.fromLTRB(
+                                                                0 * fem,
+                                                                0 * fem,
+                                                                0 * fem,
+                                                                3 * fem),
+                                                        child: Text(
+                                                          'Cloudly',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: SafeGoogleFont(
+                                                            'Montserrat',
+                                                            fontSize: 18 * ffem,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            height: 1.2175 *
+                                                                ffem /
+                                                                fem,
+                                                            color: Color(
+                                                                0xff3d003e),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Text(
+                                                  // marbelladrx9u (0:568)
+                                                  'Marbella Dr',
+                                                  style: SafeGoogleFont(
+                                                    'Montserrat',
+                                                    fontSize: 18 * ffem,
+                                                    fontWeight: FontWeight.w400,
+                                                    height: 1.2175 * ffem / fem,
+                                                    color: Color(0xff3d003e),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      // autogroupvtzu61D (L98GXS9xuaDLV9fLLMvtZu)
+                                      width: double.infinity,
+                                      height: 53 * fem,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffd1ffef),
+                                        borderRadius:
+                                            BorderRadius.circular(26.5 * fem),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Color(0x28000000),
+                                            offset: Offset(0 * fem, 12 * fem),
+                                            blurRadius: 15 * fem,
+                                          ),
+                                        ],
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '${currentTime.day.toString()} ${months[currentTime.month - 1]} , ${DateFormat.EEEE().format(DateTime.now())}',
+                                          textAlign: TextAlign.center,
+                                          style: SafeGoogleFont(
+                                            'Montserrat',
+                                            fontSize: 18 * ffem,
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.2175 * ffem / fem,
+                                            color: Color(0xff3d003e),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              FutureBuilder<List<BicycleModel>>(
+                                  future: _Datas,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Container(
+                                        // cardswGj (2:1123)
+                                        width: 668 * fem,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              // autogroup2zifgk7 (L98F79BkYCNtHFizEn2Zif)
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0 * fem,
+                                                  0 * fem,
+                                                  0 * fem,
+                                                  20 * fem),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              VeloList()));
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Container(
+                                                      // nearyouQg7 (0:557)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              136 * fem,
                                                               0 * fem),
                                                       child: Text(
-                                                        '18º',
+                                                        'bicycles ',
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: SafeGoogleFont(
                                                           'Montserrat',
-                                                          fontSize: 32 * ffem,
+                                                          fontSize: 21 * ffem,
                                                           fontWeight:
-                                                              FontWeight.w400,
+                                                              FontWeight.w600,
                                                           height: 1.2175 *
                                                               ffem /
                                                               fem,
@@ -571,17 +2245,17 @@ class _welcomeState extends State<welcome> {
                                                       ),
                                                     ),
                                                     Container(
-                                                      // cloudlydtK (0:569)
+                                                      // browsemap86K (0:558)
                                                       margin:
                                                           EdgeInsets.fromLTRB(
                                                               0 * fem,
                                                               0 * fem,
-                                                              0 * fem,
-                                                              3 * fem),
+                                                              10.36 * fem,
+                                                              0 * fem),
                                                       child: Text(
-                                                        'Cloudly',
+                                                        'more',
                                                         textAlign:
-                                                            TextAlign.center,
+                                                            TextAlign.right,
                                                         style: SafeGoogleFont(
                                                           'Montserrat',
                                                           fontSize: 18 * ffem,
@@ -595,1207 +2269,1080 @@ class _welcomeState extends State<welcome> {
                                                         ),
                                                       ),
                                                     ),
+                                                    Container(
+                                                      // iconchevronleftEf9 (0:561)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              2 * fem),
+                                                      width: 8.64 * fem,
+                                                      height: 17.28 * fem,
+                                                      child: Image.asset(
+                                                        'assets/app-design/images/icon-chevron-left-Kpj.png',
+                                                        width: 8.64 * fem,
+                                                        height: 17.28 * fem,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
-                                              Text(
-                                                // marbelladrx9u (0:568)
-                                                'Marbella Dr',
-                                                style: SafeGoogleFont(
-                                                  'Montserrat',
-                                                  fontSize: 18 * ffem,
-                                                  fontWeight: FontWeight.w400,
-                                                  height: 1.2175 * ffem / fem,
-                                                  color: Color(0xff3d003e),
+                                            ),
+                                            Container(
+                                              // autogroup6uqdk7h (L98FF48EVnpjeUXUwU6Uqd)
+                                              width: double.infinity,
+                                              height: 374 * fem,
+                                              child: SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      // card16BZ (I0:559;0:1430)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              24 * fem,
+                                                              0 * fem),
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              22 * fem,
+                                                              27 * fem,
+                                                              22 * fem,
+                                                              18 * fem),
+                                                      width: 322 * fem,
+                                                      height: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xffffffff),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    24 * fem),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Color(
+                                                                0x28000000),
+                                                            offset: Offset(
+                                                                0 * fem,
+                                                                12 * fem),
+                                                            blurRadius:
+                                                                15 * fem,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            // bitmapLbh (I0:559;0:1438)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    19.31 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    26 * fem),
+                                                            width: 230 * fem,
+                                                            height: 132 * fem,
+                                                            child:
+                                                                Image.network(
+                                                              mesData[1]
+                                                                  .photos
+                                                                  .first,
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              patchElem(
+                                                                  mesData[1].id,
+                                                                  mesData[1]
+                                                                      .price);
+                                                            },
+                                                            child: Container(
+                                                              // distance4nb (I0:559;0:1434)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      82 * fem,
+                                                                      17 * fem),
+                                                              padding: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      31 * fem,
+                                                                      14 * fem,
+                                                                      36 * fem,
+                                                                      15 * fem),
+                                                              width: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(27.5 *
+                                                                            fem),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  begin:
+                                                                      Alignment(
+                                                                          1.307,
+                                                                          1.613),
+                                                                  end:
+                                                                      Alignment(
+                                                                          1.307,
+                                                                          -1),
+                                                                  colors: <
+                                                                      Color>[
+                                                                    Color(
+                                                                        0xff009efd),
+                                                                    Color(
+                                                                        0xff2af598)
+                                                                  ],
+                                                                  stops: <
+                                                                      double>[
+                                                                    0,
+                                                                    1
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Container(
+                                                                    // distanceWeb (I0:559;0:1436)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        8 * fem,
+                                                                        0 * fem),
+                                                                    child: Text(
+                                                                      'rent',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .right,
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            16 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    // m15Z (I0:559;0:1437)
+                                                                    '${mesData[1].price} dt/1h',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .right,
+                                                                    style:
+                                                                        SafeGoogleFont(
+                                                                      'Montserrat',
+                                                                      fontSize:
+                                                                          21 *
+                                                                              ffem,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      height: 1.2175 *
+                                                                          ffem /
+                                                                          fem,
+                                                                      color: Color(
+                                                                          0xff3d003e),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            // haibikesdurofullseLdd (I0:559;0:1433)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    5 * fem),
+                                                            child: Text(
+                                                              mesData[1].name,
+                                                              style:
+                                                                  SafeGoogleFont(
+                                                                'Montserrat',
+                                                                fontSize:
+                                                                    18 * ffem,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                height: 1.2175 *
+                                                                    ffem /
+                                                                    fem,
+                                                                color: Color(
+                                                                    0xff3d003e),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            // available3H9 (I0:559;0:1432)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem),
+                                                            child: Text(
+                                                              '1 Available',
+                                                              style:
+                                                                  SafeGoogleFont(
+                                                                'Montserrat',
+                                                                fontSize:
+                                                                    18 * ffem,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                height: 1.2175 *
+                                                                    ffem /
+                                                                    fem,
+                                                                color: Color(
+                                                                    0xff3d003e),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      // card16BZ (I0:559;0:1430)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              24 * fem,
+                                                              0 * fem),
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              22 * fem,
+                                                              27 * fem,
+                                                              22 * fem,
+                                                              18 * fem),
+                                                      width: 322 * fem,
+                                                      height: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xffffffff),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    24 * fem),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Color(
+                                                                0x28000000),
+                                                            offset: Offset(
+                                                                0 * fem,
+                                                                12 * fem),
+                                                            blurRadius:
+                                                                15 * fem,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            // bitmapLbh (I0:559;0:1438)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    19.31 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    26 * fem),
+                                                            width: 230 * fem,
+                                                            height: 132 * fem,
+                                                            child:
+                                                                Image.network(
+                                                              mesData[2]
+                                                                  .photos
+                                                                  .first,
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              patchElem(
+                                                                  mesData[2].id,
+                                                                  mesData[2]
+                                                                      .price);
+                                                            },
+                                                            child: Container(
+                                                              // distance4nb (I0:559;0:1434)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      82 * fem,
+                                                                      17 * fem),
+                                                              padding: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      31 * fem,
+                                                                      14 * fem,
+                                                                      36 * fem,
+                                                                      15 * fem),
+                                                              width: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(27.5 *
+                                                                            fem),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  begin:
+                                                                      Alignment(
+                                                                          1.307,
+                                                                          1.613),
+                                                                  end:
+                                                                      Alignment(
+                                                                          1.307,
+                                                                          -1),
+                                                                  colors: <
+                                                                      Color>[
+                                                                    Color(
+                                                                        0xff009efd),
+                                                                    Color(
+                                                                        0xff2af598)
+                                                                  ],
+                                                                  stops: <
+                                                                      double>[
+                                                                    0,
+                                                                    1
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Container(
+                                                                    // distanceWeb (I0:559;0:1436)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        8 * fem,
+                                                                        0 * fem),
+                                                                    child: Text(
+                                                                      'rent',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .right,
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            16 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    // m15Z (I0:559;0:1437)
+                                                                    '${mesData[2].price} dt/1h',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .right,
+                                                                    style:
+                                                                        SafeGoogleFont(
+                                                                      'Montserrat',
+                                                                      fontSize:
+                                                                          21 *
+                                                                              ffem,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      height: 1.2175 *
+                                                                          ffem /
+                                                                          fem,
+                                                                      color: Color(
+                                                                          0xff3d003e),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            // haibikesdurofullseLdd (I0:559;0:1433)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    5 * fem),
+                                                            child: Text(
+                                                              mesData[2].name,
+                                                              style:
+                                                                  SafeGoogleFont(
+                                                                'Montserrat',
+                                                                fontSize:
+                                                                    18 * ffem,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                height: 1.2175 *
+                                                                    ffem /
+                                                                    fem,
+                                                                color: Color(
+                                                                    0xff3d003e),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            // available3H9 (I0:559;0:1432)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem),
+                                                            child: Text(
+                                                              '1 Available',
+                                                              style:
+                                                                  SafeGoogleFont(
+                                                                'Montserrat',
+                                                                fontSize:
+                                                                    18 * ffem,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                height: 1.2175 *
+                                                                    ffem /
+                                                                    fem,
+                                                                color: Color(
+                                                                    0xff3d003e),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    // autogroupvtzu61D (L98GXS9xuaDLV9fLLMvtZu)
-                                    width: double.infinity,
-                                    height: 53 * fem,
-                                    decoration: BoxDecoration(
-                                      color: Color(0xffd1ffef),
-                                      borderRadius:
-                                          BorderRadius.circular(26.5 * fem),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Color(0x28000000),
-                                          offset: Offset(0 * fem, 12 * fem),
-                                          blurRadius: 15 * fem,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        '${currentTime.day.toString()} ${months[currentTime.month - 1]} , ${DateFormat.EEEE().format(DateTime.now())}',
-                                        textAlign: TextAlign.center,
-                                        style: SafeGoogleFont(
-                                          'Montserrat',
-                                          fontSize: 18 * ffem,
-                                          fontWeight: FontWeight.w400,
-                                          height: 1.2175 * ffem / fem,
-                                          color: Color(0xff3d003e),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text("Verifer votre connexion",
+                                          style: TextStyle(fontSize: 30));
+                                    }
+                                    return CircularProgressIndicator();
+                                  }),
+                              SizedBox(
+                                height: 20,
                               ),
-                            ),
-                            (mesData.length > 1)
-                                ? Container(
-                                    // cardswGj (2:1123)
-                                    width: 668 * fem,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          // autogroup2zifgk7 (L98F79BkYCNtHFizEn2Zif)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 0 * fem, 20 * fem),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          VeloList()));
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Container(
-                                                  // nearyouQg7 (0:557)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      136 * fem,
-                                                      0 * fem),
-                                                  child: Text(
-                                                    'bicycles ',
-                                                    textAlign: TextAlign.center,
-                                                    style: SafeGoogleFont(
-                                                      'Montserrat',
-                                                      fontSize: 21 * ffem,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      height:
-                                                          1.2175 * ffem / fem,
-                                                      color: Color(0xff3d003e),
+                              FutureBuilder<List<BicycleModel>>(
+                                  future: _Datas2,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Container(
+                                        // cardswGj (2:1123)
+                                        width: 668 * fem,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              // autogroup2zifgk7 (L98F79BkYCNtHFizEn2Zif)
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0 * fem,
+                                                  0 * fem,
+                                                  0 * fem,
+                                                  20 * fem),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ScooterList()));
+                                                },
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Container(
+                                                      // nearyouQg7 (0:557)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              136 * fem,
+                                                              0 * fem),
+                                                      child: Text(
+                                                        'scooters ',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: SafeGoogleFont(
+                                                          'Montserrat',
+                                                          fontSize: 21 * ffem,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          height: 1.2175 *
+                                                              ffem /
+                                                              fem,
+                                                          color:
+                                                              Color(0xff3d003e),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  // browsemap86K (0:558)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      10.36 * fem,
-                                                      0 * fem),
-                                                  child: Text(
-                                                    'more',
-                                                    textAlign: TextAlign.right,
-                                                    style: SafeGoogleFont(
-                                                      'Montserrat',
-                                                      fontSize: 18 * ffem,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      height:
-                                                          1.2175 * ffem / fem,
-                                                      color: Color(0xff3d003e),
+                                                    Container(
+                                                      // browsemap86K (0:558)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              10.36 * fem,
+                                                              0 * fem),
+                                                      child: Text(
+                                                        'more',
+                                                        textAlign:
+                                                            TextAlign.right,
+                                                        style: SafeGoogleFont(
+                                                          'Montserrat',
+                                                          fontSize: 18 * ffem,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          height: 1.2175 *
+                                                              ffem /
+                                                              fem,
+                                                          color:
+                                                              Color(0xff3d003e),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  // iconchevronleftEf9 (0:561)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      2 * fem),
-                                                  width: 8.64 * fem,
-                                                  height: 17.28 * fem,
-                                                  child: Image.asset(
-                                                    'assets/app-design/images/icon-chevron-left-Kpj.png',
-                                                    width: 8.64 * fem,
-                                                    height: 17.28 * fem,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          // autogroup6uqdk7h (L98FF48EVnpjeUXUwU6Uqd)
-                                          width: double.infinity,
-                                          height: 374 * fem,
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  // card16BZ (I0:559;0:1430)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      24 * fem,
-                                                      0 * fem),
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      22 * fem,
-                                                      27 * fem,
-                                                      22 * fem,
-                                                      18 * fem),
-                                                  width: 322 * fem,
-                                                  height: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xffffffff),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            24 * fem),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color:
-                                                            Color(0x28000000),
-                                                        offset: Offset(
-                                                            0 * fem, 12 * fem),
-                                                        blurRadius: 15 * fem,
+                                                    Container(
+                                                      // iconchevronleftEf9 (0:561)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              2 * fem),
+                                                      width: 8.64 * fem,
+                                                      height: 17.28 * fem,
+                                                      child: Image.asset(
+                                                        'assets/app-design/images/icon-chevron-left-Kpj.png',
+                                                        width: 8.64 * fem,
+                                                        height: 17.28 * fem,
                                                       ),
-                                                    ],
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        // bitmapLbh (I0:559;0:1438)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                19.31 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                26 * fem),
-                                                        width: 230 * fem,
-                                                        height: 132 * fem,
-                                                        child: Image.network(
-                                                          mesData[1]
-                                                              .photos
-                                                              .first,
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          patchElem(
-                                                              mesData[1].id,
-                                                              mesData[1].price);
-                                                        },
-                                                        child: Container(
-                                                          // distance4nb (I0:559;0:1434)
-                                                          margin: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0 * fem,
-                                                                  0 * fem,
-                                                                  82 * fem,
-                                                                  17 * fem),
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  31 * fem,
-                                                                  14 * fem,
-                                                                  36 * fem,
-                                                                  15 * fem),
-                                                          width:
-                                                              double.infinity,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        27.5 *
-                                                                            fem),
-                                                            gradient:
-                                                                LinearGradient(
-                                                              begin: Alignment(
-                                                                  1.307, 1.613),
-                                                              end: Alignment(
-                                                                  1.307, -1),
-                                                              colors: <Color>[
-                                                                Color(
-                                                                    0xff009efd),
-                                                                Color(
-                                                                    0xff2af598)
-                                                              ],
-                                                              stops: <double>[
-                                                                0,
-                                                                1
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Container(
-                                                                // distanceWeb (I0:559;0:1436)
-                                                                margin: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        0 * fem,
-                                                                        0 * fem,
-                                                                        8 * fem,
-                                                                        0 * fem),
-                                                                child: Text(
-                                                                  'rent',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .right,
-                                                                  style:
-                                                                      SafeGoogleFont(
-                                                                    'Montserrat',
-                                                                    fontSize:
-                                                                        16 *
-                                                                            ffem,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    height:
-                                                                        1.2175 *
-                                                                            ffem /
-                                                                            fem,
-                                                                    color: Color(
-                                                                        0xff3d003e),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                // m15Z (I0:559;0:1437)
-                                                                '${mesData[1].price} dt/1h',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .right,
-                                                                style:
-                                                                    SafeGoogleFont(
-                                                                  'Montserrat',
-                                                                  fontSize:
-                                                                      21 * ffem,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  height:
-                                                                      1.2175 *
-                                                                          ffem /
-                                                                          fem,
-                                                                  color: Color(
-                                                                      0xff3d003e),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // haibikesdurofullseLdd (I0:559;0:1433)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                2 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                5 * fem),
-                                                        child: Text(
-                                                          mesData[1].name,
-                                                          style: SafeGoogleFont(
-                                                            'Montserrat',
-                                                            fontSize: 18 * ffem,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            height: 1.2175 *
-                                                                ffem /
-                                                                fem,
-                                                            color: Color(
-                                                                0xff3d003e),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // available3H9 (I0:559;0:1432)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                2 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                0 * fem),
-                                                        child: Text(
-                                                          '1 Available',
-                                                          style: SafeGoogleFont(
-                                                            'Montserrat',
-                                                            fontSize: 18 * ffem,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            height: 1.2175 *
-                                                                ffem /
-                                                                fem,
-                                                            color: Color(
-                                                                0xff3d003e),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Container(
-                                                  // card16BZ (I0:559;0:1430)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      24 * fem,
-                                                      0 * fem),
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      22 * fem,
-                                                      27 * fem,
-                                                      22 * fem,
-                                                      18 * fem),
-                                                  width: 322 * fem,
-                                                  height: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xffffffff),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            24 * fem),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color:
-                                                            Color(0x28000000),
-                                                        offset: Offset(
-                                                            0 * fem, 12 * fem),
-                                                        blurRadius: 15 * fem,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        // bitmapLbh (I0:559;0:1438)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                19.31 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                26 * fem),
-                                                        width: 230 * fem,
-                                                        height: 132 * fem,
-                                                        child: Image.network(
-                                                          mesData[2]
-                                                              .photos
-                                                              .first,
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          patchElem(
-                                                              mesData[2].id,
-                                                              mesData[2].price);
-                                                        },
-                                                        child: Container(
-                                                          // distance4nb (I0:559;0:1434)
-                                                          margin: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0 * fem,
-                                                                  0 * fem,
-                                                                  82 * fem,
-                                                                  17 * fem),
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  31 * fem,
-                                                                  14 * fem,
-                                                                  36 * fem,
-                                                                  15 * fem),
-                                                          width:
-                                                              double.infinity,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        27.5 *
-                                                                            fem),
-                                                            gradient:
-                                                                LinearGradient(
-                                                              begin: Alignment(
-                                                                  1.307, 1.613),
-                                                              end: Alignment(
-                                                                  1.307, -1),
-                                                              colors: <Color>[
-                                                                Color(
-                                                                    0xff009efd),
-                                                                Color(
-                                                                    0xff2af598)
-                                                              ],
-                                                              stops: <double>[
-                                                                0,
-                                                                1
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Container(
-                                                                // distanceWeb (I0:559;0:1436)
-                                                                margin: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        0 * fem,
-                                                                        0 * fem,
-                                                                        8 * fem,
-                                                                        0 * fem),
-                                                                child: Text(
-                                                                  'rent',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .right,
-                                                                  style:
-                                                                      SafeGoogleFont(
-                                                                    'Montserrat',
-                                                                    fontSize:
-                                                                        16 *
-                                                                            ffem,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    height:
-                                                                        1.2175 *
-                                                                            ffem /
-                                                                            fem,
-                                                                    color: Color(
-                                                                        0xff3d003e),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                // m15Z (I0:559;0:1437)
-                                                                '${mesData[2].price} dt/1h',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .right,
-                                                                style:
-                                                                    SafeGoogleFont(
-                                                                  'Montserrat',
-                                                                  fontSize:
-                                                                      21 * ffem,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  height:
-                                                                      1.2175 *
-                                                                          ffem /
-                                                                          fem,
-                                                                  color: Color(
-                                                                      0xff3d003e),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // haibikesdurofullseLdd (I0:559;0:1433)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                2 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                5 * fem),
-                                                        child: Text(
-                                                          mesData[2].name,
-                                                          style: SafeGoogleFont(
-                                                            'Montserrat',
-                                                            fontSize: 18 * ffem,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            height: 1.2175 *
-                                                                ffem /
-                                                                fem,
-                                                            color: Color(
-                                                                0xff3d003e),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // available3H9 (I0:559;0:1432)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                2 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                0 * fem),
-                                                        child: Text(
-                                                          '1 Available',
-                                                          style: SafeGoogleFont(
-                                                            'Montserrat',
-                                                            fontSize: 18 * ffem,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            height: 1.2175 *
-                                                                ffem /
-                                                                fem,
-                                                            color: Color(
-                                                                0xff3d003e),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(),
-                            SizedBox(height: 50),
-                            (mesData2.length > 1)
-                                ? Container(
-                                    // cardswGj (2:1123)
-                                    width: 668 * fem,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          // autogroup2zifgk7 (L98F79BkYCNtHFizEn2Zif)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 0 * fem, 20 * fem),
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ScooterList()));
-                                            },
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
-                                              children: [
-                                                Container(
-                                                  // nearyouQg7 (0:557)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      136 * fem,
-                                                      0 * fem),
-                                                  child: Text(
-                                                    'scooters ',
-                                                    textAlign: TextAlign.center,
-                                                    style: SafeGoogleFont(
-                                                      'Montserrat',
-                                                      fontSize: 21 * ffem,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      height:
-                                                          1.2175 * ffem / fem,
-                                                      color: Color(0xff3d003e),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  // browsemap86K (0:558)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      10.36 * fem,
-                                                      0 * fem),
-                                                  child: Text(
-                                                    'more',
-                                                    textAlign: TextAlign.right,
-                                                    style: SafeGoogleFont(
-                                                      'Montserrat',
-                                                      fontSize: 18 * ffem,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      height:
-                                                          1.2175 * ffem / fem,
-                                                      color: Color(0xff3d003e),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  // iconchevronleftEf9 (0:561)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      2 * fem),
-                                                  width: 8.64 * fem,
-                                                  height: 17.28 * fem,
-                                                  child: Image.asset(
-                                                    'assets/app-design/images/icon-chevron-left-Kpj.png',
-                                                    width: 8.64 * fem,
-                                                    height: 17.28 * fem,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          // autogroup6uqdk7h (L98FF48EVnpjeUXUwU6Uqd)
-                                          width: double.infinity,
-                                          height: 374 * fem,
-                                          child: SingleChildScrollView(
-                                            scrollDirection: Axis.horizontal,
-                                            child: Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                Container(
-                                                  // card16BZ (I0:559;0:1430)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      24 * fem,
-                                                      0 * fem),
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      22 * fem,
-                                                      27 * fem,
-                                                      22 * fem,
-                                                      18 * fem),
-                                                  width: 322 * fem,
-                                                  height: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xffffffff),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            24 * fem),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color:
-                                                            Color(0x28000000),
-                                                        offset: Offset(
-                                                            0 * fem, 12 * fem),
-                                                        blurRadius: 15 * fem,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        // bitmapLbh (I0:559;0:1438)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                19.31 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                26 * fem),
-                                                        width: 230 * fem,
-                                                        height: 132 * fem,
-                                                        child: Image.network(
-                                                          mesData2[1]
-                                                              .photos
-                                                              .first,
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          patchElem(
-                                                              mesData2[1].id,
-                                                              mesData2[1]
-                                                                  .price);
-                                                        },
-                                                        child: Container(
-                                                          // distance4nb (I0:559;0:1434)
-                                                          margin: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0 * fem,
-                                                                  0 * fem,
-                                                                  82 * fem,
-                                                                  17 * fem),
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  31 * fem,
-                                                                  14 * fem,
-                                                                  36 * fem,
-                                                                  15 * fem),
-                                                          width:
-                                                              double.infinity,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        27.5 *
-                                                                            fem),
-                                                            gradient:
-                                                                LinearGradient(
-                                                              begin: Alignment(
-                                                                  1.307, 1.613),
-                                                              end: Alignment(
-                                                                  1.307, -1),
-                                                              colors: <Color>[
-                                                                Color(
-                                                                    0xff009efd),
-                                                                Color(
-                                                                    0xff2af598)
-                                                              ],
-                                                              stops: <double>[
-                                                                0,
-                                                                1
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Container(
-                                                                // distanceWeb (I0:559;0:1436)
-                                                                margin: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        0 * fem,
-                                                                        0 * fem,
-                                                                        8 * fem,
-                                                                        0 * fem),
-                                                                child: Text(
-                                                                  'rent',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .right,
-                                                                  style:
-                                                                      SafeGoogleFont(
-                                                                    'Montserrat',
-                                                                    fontSize:
-                                                                        16 *
-                                                                            ffem,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    height:
-                                                                        1.2175 *
-                                                                            ffem /
-                                                                            fem,
-                                                                    color: Color(
-                                                                        0xff3d003e),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                // m15Z (I0:559;0:1437)
-                                                                '${mesData2[1].price} dt/1h',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .right,
-                                                                style:
-                                                                    SafeGoogleFont(
-                                                                  'Montserrat',
-                                                                  fontSize:
-                                                                      21 * ffem,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  height:
-                                                                      1.2175 *
-                                                                          ffem /
-                                                                          fem,
-                                                                  color: Color(
-                                                                      0xff3d003e),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // haibikesdurofullseLdd (I0:559;0:1433)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                2 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                5 * fem),
-                                                        child: Text(
-                                                          mesData2[1].name,
-                                                          style: SafeGoogleFont(
-                                                            'Montserrat',
-                                                            fontSize: 18 * ffem,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            height: 1.2175 *
-                                                                ffem /
-                                                                fem,
-                                                            color: Color(
-                                                                0xff3d003e),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // available3H9 (I0:559;0:1432)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                2 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                0 * fem),
-                                                        child: Text(
-                                                          '1 Available',
-                                                          style: SafeGoogleFont(
-                                                            'Montserrat',
-                                                            fontSize: 18 * ffem,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            height: 1.2175 *
-                                                                ffem /
-                                                                fem,
-                                                            color: Color(
-                                                                0xff3d003e),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Container(
-                                                  // card16BZ (I0:559;0:1430)
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      0 * fem,
-                                                      0 * fem,
-                                                      24 * fem,
-                                                      0 * fem),
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      22 * fem,
-                                                      27 * fem,
-                                                      22 * fem,
-                                                      18 * fem),
-                                                  width: 322 * fem,
-                                                  height: double.infinity,
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xffffffff),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            24 * fem),
-                                                    boxShadow: [
-                                                      BoxShadow(
-                                                        color:
-                                                            Color(0x28000000),
-                                                        offset: Offset(
-                                                            0 * fem, 12 * fem),
-                                                        blurRadius: 15 * fem,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Container(
-                                                        // bitmapLbh (I0:559;0:1438)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                19.31 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                26 * fem),
-                                                        width: 230 * fem,
-                                                        height: 132 * fem,
-                                                        child: Image.network(
-                                                          mesData2[2]
-                                                              .photos
-                                                              .first,
-                                                        ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () {
-                                                          patchElem(
-                                                              mesData2[2].id,
-                                                              mesData2[2]
-                                                                  .price);
-                                                        },
-                                                        child: Container(
-                                                          // distance4nb (I0:559;0:1434)
-                                                          margin: EdgeInsets
-                                                              .fromLTRB(
-                                                                  0 * fem,
-                                                                  0 * fem,
-                                                                  82 * fem,
-                                                                  17 * fem),
-                                                          padding: EdgeInsets
-                                                              .fromLTRB(
-                                                                  31 * fem,
-                                                                  14 * fem,
-                                                                  36 * fem,
-                                                                  15 * fem),
-                                                          width:
-                                                              double.infinity,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        27.5 *
-                                                                            fem),
-                                                            gradient:
-                                                                LinearGradient(
-                                                              begin: Alignment(
-                                                                  1.307, 1.613),
-                                                              end: Alignment(
-                                                                  1.307, -1),
-                                                              colors: <Color>[
-                                                                Color(
-                                                                    0xff009efd),
-                                                                Color(
-                                                                    0xff2af598)
-                                                              ],
-                                                              stops: <double>[
-                                                                0,
-                                                                1
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Container(
-                                                                // distanceWeb (I0:559;0:1436)
-                                                                margin: EdgeInsets
-                                                                    .fromLTRB(
-                                                                        0 * fem,
-                                                                        0 * fem,
-                                                                        8 * fem,
-                                                                        0 * fem),
-                                                                child: Text(
-                                                                  'rent',
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .right,
-                                                                  style:
-                                                                      SafeGoogleFont(
-                                                                    'Montserrat',
-                                                                    fontSize:
-                                                                        16 *
-                                                                            ffem,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400,
-                                                                    height:
-                                                                        1.2175 *
-                                                                            ffem /
-                                                                            fem,
-                                                                    color: Color(
-                                                                        0xff3d003e),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                // m15Z (I0:559;0:1437)
-                                                                '${mesData2[2].price} dt/1h',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .right,
-                                                                style:
-                                                                    SafeGoogleFont(
-                                                                  'Montserrat',
-                                                                  fontSize:
-                                                                      21 * ffem,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  height:
-                                                                      1.2175 *
-                                                                          ffem /
-                                                                          fem,
-                                                                  color: Color(
-                                                                      0xff3d003e),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // haibikesdurofullseLdd (I0:559;0:1433)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                2 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                5 * fem),
-                                                        child: Text(
-                                                          mesData2[2].name,
-                                                          style: SafeGoogleFont(
-                                                            'Montserrat',
-                                                            fontSize: 18 * ffem,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            height: 1.2175 *
-                                                                ffem /
-                                                                fem,
-                                                            color: Color(
-                                                                0xff3d003e),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        // available3H9 (I0:559;0:1432)
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                2 * fem,
-                                                                0 * fem,
-                                                                0 * fem,
-                                                                0 * fem),
-                                                        child: Text(
-                                                          '1 Available',
-                                                          style: SafeGoogleFont(
-                                                            'Montserrat',
-                                                            fontSize: 18 * ffem,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            height: 1.2175 *
-                                                                ffem /
-                                                                fem,
-                                                            color: Color(
-                                                                0xff3d003e),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(),
-                            (sharedPref?.getString("Role").toString() == "user")
-                                ? Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        0 * fem, 40 * fem, 25 * fem, 0 * fem),
-                                    child: Card(
-                                      // Set the shape of the card using a rounded rectangle border with a 8 pixel radius
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      // Set the clip behavior of the card
-                                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                                      // Define the child widgets of the card
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          // Display an image at the top of the card that fills the width of the card and has a height of 160 pixels
-                                          Image.asset(
-                                            'assets/app-design/images/2902191.jpg',
-                                            height: 160,
-                                            width: double.infinity,
-                                            fit: BoxFit.contain,
-                                          ),
-                                          // Add a container with padding that contains the card's title, text, and buttons
-                                          Container(
-                                            color: Colors.grey[200],
-                                            padding: const EdgeInsets.fromLTRB(
-                                                15, 15, 15, 0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: <Widget>[
-                                                // Display the card's title using a font size of 24 and a dark grey color
-                                                Text(
-                                                  "My Wallet",
-                                                  style: TextStyle(
-                                                    fontSize: 24,
-                                                    color: Colors.grey[800],
-                                                  ),
-                                                ),
-                                                // Add a space between the title and the text
-                                                Container(height: 10),
-                                                // Display the card's text using a font size of 15 and a light grey color
-                                                Text(
-                                                  '${snapshot.data!.wallet} DT',
-                                                  style: TextStyle(
-                                                    fontSize: 25,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                                // Add a row with two buttons spaced apart and aligned to the right side of the card
-                                                Row(
-                                                  children: <Widget>[
-                                                    // Add a spacer to push the buttons to the right side of the card
-                                                    const Spacer(),
-                                                    // Add a text button labeled "SHARE" with transparent foreground color and an accent color for the text
-                                                    TextButton(
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                        foregroundColor:
-                                                            Colors.transparent,
-                                                      ),
-                                                      child: const Text(
-                                                        "SHARE",
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                      onPressed: () {},
-                                                    ),
-                                                    // Add a text button labeled "EXPLORE" with transparent foreground color and an accent color for the text
-                                                    TextButton(
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                        foregroundColor:
-                                                            Colors.transparent,
-                                                      ),
-                                                      child: const Text(
-                                                        "load my wallet",
-                                                        style: TextStyle(
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                      onPressed: () {
-                                                        _showAlertDialog(
-                                                            snapshot
-                                                                .data!.wallet);
-                                                      },
                                                     ),
                                                   ],
                                                 ),
-                                              ],
+                                              ),
                                             ),
-                                          ),
-                                          // Add a small space between the card and the next widget
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : Container(),
-                          ],
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text("Verifer votre connexion",
-                            style: TextStyle(fontSize: 30));
-                      }
-                      return CircularProgressIndicator();
-                    })),
+                                            Container(
+                                              // autogroup6uqdk7h (L98FF48EVnpjeUXUwU6Uqd)
+                                              width: double.infinity,
+                                              height: 374 * fem,
+                                              child: SingleChildScrollView(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                      // card16BZ (I0:559;0:1430)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              24 * fem,
+                                                              0 * fem),
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              22 * fem,
+                                                              27 * fem,
+                                                              22 * fem,
+                                                              18 * fem),
+                                                      width: 322 * fem,
+                                                      height: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xffffffff),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    24 * fem),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Color(
+                                                                0x28000000),
+                                                            offset: Offset(
+                                                                0 * fem,
+                                                                12 * fem),
+                                                            blurRadius:
+                                                                15 * fem,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            // bitmapLbh (I0:559;0:1438)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    19.31 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    26 * fem),
+                                                            width: 230 * fem,
+                                                            height: 132 * fem,
+                                                            child:
+                                                                Image.network(
+                                                              mesData2[1]
+                                                                  .photos
+                                                                  .first,
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              patchElem(
+                                                                  mesData2[1]
+                                                                      .id,
+                                                                  mesData2[1]
+                                                                      .price);
+                                                            },
+                                                            child: Container(
+                                                              // distance4nb (I0:559;0:1434)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      82 * fem,
+                                                                      17 * fem),
+                                                              padding: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      31 * fem,
+                                                                      14 * fem,
+                                                                      36 * fem,
+                                                                      15 * fem),
+                                                              width: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(27.5 *
+                                                                            fem),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  begin:
+                                                                      Alignment(
+                                                                          1.307,
+                                                                          1.613),
+                                                                  end:
+                                                                      Alignment(
+                                                                          1.307,
+                                                                          -1),
+                                                                  colors: <
+                                                                      Color>[
+                                                                    Color(
+                                                                        0xff009efd),
+                                                                    Color(
+                                                                        0xff2af598)
+                                                                  ],
+                                                                  stops: <
+                                                                      double>[
+                                                                    0,
+                                                                    1
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Container(
+                                                                    // distanceWeb (I0:559;0:1436)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        8 * fem,
+                                                                        0 * fem),
+                                                                    child: Text(
+                                                                      'rent',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .right,
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            16 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    // m15Z (I0:559;0:1437)
+                                                                    '${mesData2[1].price} dt/1h',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .right,
+                                                                    style:
+                                                                        SafeGoogleFont(
+                                                                      'Montserrat',
+                                                                      fontSize:
+                                                                          21 *
+                                                                              ffem,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      height: 1.2175 *
+                                                                          ffem /
+                                                                          fem,
+                                                                      color: Color(
+                                                                          0xff3d003e),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            // haibikesdurofullseLdd (I0:559;0:1433)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    5 * fem),
+                                                            child: Text(
+                                                              mesData2[1].name,
+                                                              style:
+                                                                  SafeGoogleFont(
+                                                                'Montserrat',
+                                                                fontSize:
+                                                                    18 * ffem,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                height: 1.2175 *
+                                                                    ffem /
+                                                                    fem,
+                                                                color: Color(
+                                                                    0xff3d003e),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            // available3H9 (I0:559;0:1432)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem),
+                                                            child: Text(
+                                                              '1 Available',
+                                                              style:
+                                                                  SafeGoogleFont(
+                                                                'Montserrat',
+                                                                fontSize:
+                                                                    18 * ffem,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                height: 1.2175 *
+                                                                    ffem /
+                                                                    fem,
+                                                                color: Color(
+                                                                    0xff3d003e),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      // card16BZ (I0:559;0:1430)
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0 * fem,
+                                                              0 * fem,
+                                                              24 * fem,
+                                                              0 * fem),
+                                                      padding:
+                                                          EdgeInsets.fromLTRB(
+                                                              22 * fem,
+                                                              27 * fem,
+                                                              22 * fem,
+                                                              18 * fem),
+                                                      width: 322 * fem,
+                                                      height: double.infinity,
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xffffffff),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    24 * fem),
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Color(
+                                                                0x28000000),
+                                                            offset: Offset(
+                                                                0 * fem,
+                                                                12 * fem),
+                                                            blurRadius:
+                                                                15 * fem,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
+                                                            // bitmapLbh (I0:559;0:1438)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    19.31 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    26 * fem),
+                                                            width: 230 * fem,
+                                                            height: 132 * fem,
+                                                            child:
+                                                                Image.network(
+                                                              mesData2[2]
+                                                                  .photos
+                                                                  .first,
+                                                            ),
+                                                          ),
+                                                          InkWell(
+                                                            onTap: () {
+                                                              patchElem(
+                                                                  mesData2[2]
+                                                                      .id,
+                                                                  mesData2[2]
+                                                                      .price);
+                                                            },
+                                                            child: Container(
+                                                              // distance4nb (I0:559;0:1434)
+                                                              margin: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      0 * fem,
+                                                                      0 * fem,
+                                                                      82 * fem,
+                                                                      17 * fem),
+                                                              padding: EdgeInsets
+                                                                  .fromLTRB(
+                                                                      31 * fem,
+                                                                      14 * fem,
+                                                                      36 * fem,
+                                                                      15 * fem),
+                                                              width: double
+                                                                  .infinity,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(27.5 *
+                                                                            fem),
+                                                                gradient:
+                                                                    LinearGradient(
+                                                                  begin:
+                                                                      Alignment(
+                                                                          1.307,
+                                                                          1.613),
+                                                                  end:
+                                                                      Alignment(
+                                                                          1.307,
+                                                                          -1),
+                                                                  colors: <
+                                                                      Color>[
+                                                                    Color(
+                                                                        0xff009efd),
+                                                                    Color(
+                                                                        0xff2af598)
+                                                                  ],
+                                                                  stops: <
+                                                                      double>[
+                                                                    0,
+                                                                    1
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .center,
+                                                                children: [
+                                                                  Container(
+                                                                    // distanceWeb (I0:559;0:1436)
+                                                                    margin: EdgeInsets.fromLTRB(
+                                                                        0 * fem,
+                                                                        0 * fem,
+                                                                        8 * fem,
+                                                                        0 * fem),
+                                                                    child: Text(
+                                                                      'rent',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .right,
+                                                                      style:
+                                                                          SafeGoogleFont(
+                                                                        'Montserrat',
+                                                                        fontSize:
+                                                                            16 *
+                                                                                ffem,
+                                                                        fontWeight:
+                                                                            FontWeight.w400,
+                                                                        height: 1.2175 *
+                                                                            ffem /
+                                                                            fem,
+                                                                        color: Color(
+                                                                            0xff3d003e),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Text(
+                                                                    // m15Z (I0:559;0:1437)
+                                                                    '${mesData2[2].price} dt/1h',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .right,
+                                                                    style:
+                                                                        SafeGoogleFont(
+                                                                      'Montserrat',
+                                                                      fontSize:
+                                                                          21 *
+                                                                              ffem,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      height: 1.2175 *
+                                                                          ffem /
+                                                                          fem,
+                                                                      color: Color(
+                                                                          0xff3d003e),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            // haibikesdurofullseLdd (I0:559;0:1433)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    5 * fem),
+                                                            child: Text(
+                                                              mesData2[2].name,
+                                                              style:
+                                                                  SafeGoogleFont(
+                                                                'Montserrat',
+                                                                fontSize:
+                                                                    18 * ffem,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400,
+                                                                height: 1.2175 *
+                                                                    ffem /
+                                                                    fem,
+                                                                color: Color(
+                                                                    0xff3d003e),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(
+                                                            // available3H9 (I0:559;0:1432)
+                                                            margin: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem,
+                                                                    0 * fem),
+                                                            child: Text(
+                                                              '1 Available',
+                                                              style:
+                                                                  SafeGoogleFont(
+                                                                'Montserrat',
+                                                                fontSize:
+                                                                    18 * ffem,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                height: 1.2175 *
+                                                                    ffem /
+                                                                    fem,
+                                                                color: Color(
+                                                                    0xff3d003e),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text("Verifer votre connexion",
+                                          style: TextStyle(fontSize: 30));
+                                    }
+                                    return CircularProgressIndicator();
+                                  }),
+                              SizedBox(height: 50),
+                            ],
+                          )),
+                    ),
+            ],
           ),
         ),
       ),
