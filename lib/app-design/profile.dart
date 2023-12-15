@@ -148,11 +148,19 @@ class _Scene6State extends State<Scene6> {
 
                                       width: 100 * fem,
                                       height: 100 * fem,
-                                      child: CircleAvatar(
-                                        backgroundImage: AssetImage(
-                                            "assets/app-design/images/ameni.jpeg"),
-                                        radius: 50,
-                                      ),
+                                      child: (snapshot.data!.image != null)
+                                          ? CircleAvatar(
+                                              backgroundImage: MemoryImage(
+                                                  base64Decode(
+                                                      snapshot.data!.image ??
+                                                          "")),
+                                              radius: 50,
+                                            )
+                                          : CircleAvatar(
+                                              backgroundImage: AssetImage(
+                                                  "assets/app-design/images/user.png"),
+                                              radius: 50,
+                                            ),
                                     ),
                                     Text(
                                       // lucassimesmoD (0:412)
@@ -312,52 +320,6 @@ class _Scene6State extends State<Scene6> {
                                         ),
                                       ),
                                     ),
-                                    /*Expanded(
-                                      child: Container(
-                                        width: 296 * fem,
-                                        height: 80 * fem,
-                                        child: Container(
-                                          // autogroupusebEcF (L987XCA9eNoALakg2mUSeB)
-                                          margin: EdgeInsets.fromLTRB(0 * fem,
-                                              0 * fem, 24 * fem, 21 * fem),
-                                          width: 272 * fem,
-                                          height: 26 * fem,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    '22 444 666',
-                                                    style: SafeGoogleFont(
-                                                      'Montserrat',
-                                                      fontSize: 21 * ffem,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      height:
-                                                          1.2175 * ffem / fem,
-                                                      color: Color(0xff3d003e),
-                                                    ),
-                                                  ),
-                                                  Icon(Icons.mode_edit),
-                                                ],
-                                              ),
-                                              Divider(
-                                                height: 10,
-                                                color: Colors.green,
-                                                thickness: 1,
-                                                indent: 0,
-                                                endIndent: 10,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),*/
                                     Expanded(
                                       child: Container(
                                         width: 296 * fem,

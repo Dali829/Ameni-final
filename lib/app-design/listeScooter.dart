@@ -8,6 +8,7 @@ import 'package:myapp/utils.dart';
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
+import '../models/profileModel.dart';
 import '../models/veloModele.dart';
 import '../service/links.dart';
 
@@ -21,6 +22,19 @@ class _ScooterListState extends State<ScooterList> {
   void initState() {
     super.initState();
     _Datas = getAll();
+    profilData = getClientById();
+  }
+
+  Future<profilModel>? profilData;
+  Future<profilModel> getClientById() async {
+    String Url = "$getUserById${sharedPref?.getString("id")}";
+    http.Response futureprofil = await http.get(Uri.parse(Url));
+    sharedPref?.setInt("wallet", jsonDecode(futureprofil.body)["wallet"]);
+    if ((futureprofil.statusCode == 200) || (futureprofil.statusCode == 201)) {
+      return profilModel.fromJson(json.decode(futureprofil.body));
+    } else {
+      throw Exception('can not load post data');
+    }
   }
 
   List<BicycleModel> mesData = [];
@@ -86,20 +100,67 @@ class _ScooterListState extends State<ScooterList> {
     }
   }
 
-  Future patchElem(id, prix) async {
+  Future patchElem(id, sommP) async {
+    if (sharedPref!.getInt("wallet")! > sommP) {
+      try {
+        String Url = "$updateVelo${id}";
+        print("$updateVelo${id}");
+        await http
+            .put(Uri.parse(Url),
+                headers: {
+                  "Accept": "application/json",
+                  "content-type": "application/json"
+                },
+                body: jsonEncode({"reserved": true}))
+            .then((response) {
+          if ((response.statusCode == 200) || response.statusCode == 201) {
+            patchUser(sharedPref!.getInt("wallet")! - sommP);
+            addReservation(sommP, id);
+            setState(() {
+              _Datas = getAll();
+            });
+          } else {
+            print("error");
+          }
+        });
+      } catch (e) {
+        print(e.toString());
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "load your wallet first !!",
+          style: TextStyle(fontSize: 25),
+        ),
+        backgroundColor: Color(0xff7CDDC4),
+        elevation: 400,
+      ));
+    }
+  }
+
+  Future patchUser(somme) async {
     try {
-      String Url = "$updateVelo${id}";
-      print("$updateVelo${id}");
+      String Url = "$updateuser${sharedPref?.getString("id")}";
       await http
           .put(Uri.parse(Url),
               headers: {
                 "Accept": "application/json",
                 "content-type": "application/json"
               },
-              body: jsonEncode({"reserved": true}))
+              body: jsonEncode({"wallet": somme}))
           .then((response) {
         if ((response.statusCode == 200) || response.statusCode == 201) {
-          addReservation(prix, id);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "wallet updated !!",
+              style: TextStyle(fontSize: 25),
+            ),
+            backgroundColor: Color(0xff7CDDC4),
+            elevation: 400,
+          ));
+          setState(() {
+            profilData = getClientById();
+          });
         } else {
           print("error");
         }
@@ -423,10 +484,6 @@ class _ScooterListState extends State<ScooterList> {
                                 ),
                               ],
                             );
-                            /*ListTile(
-                        title: Text(snapshot.data![index].id.toString()),
-                        subtitle: Text(snapshot.data![index].categoryPhoto),
-                      );*/
                           },
                         ),
                       );
@@ -437,556 +494,6 @@ class _ScooterListState extends State<ScooterList> {
                   },
                 ),
               ),
-              /*Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: Colors.grey[200],
-                  ),
-                  padding: EdgeInsets.all(10),
-                  height: 350,
-                  width: 350,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // bitmapLbh (I0:559;0:1438)
-                        margin: EdgeInsets.fromLTRB(
-                            19.31 * fem, 0 * fem, 0 * fem, 26 * fem),
-                        width: 230 * fem,
-                        height: 132 * fem,
-                        child: Image.asset(
-                          'assets/app-design/images/bitmap-ydy.png',
-                        ),
-                      ),
-                      Container(
-                        // distance4nb (I0:559;0:1434)
-                        margin: EdgeInsets.fromLTRB(
-                            40 * fem, 0 * fem, 40 * fem, 17 * fem),
-                        padding: EdgeInsets.fromLTRB(
-                            31 * fem, 14 * fem, 36 * fem, 15 * fem),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(27.5 * fem),
-                          gradient: LinearGradient(
-                            begin: Alignment(1.307, 1.613),
-                            end: Alignment(1.307, -1),
-                            colors: <Color>[
-                              Color(0xff009efd),
-                              Color(0xff2af598)
-                            ],
-                            stops: <double>[0, 1],
-                          ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // distanceWeb (I0:559;0:1436)
-                              margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 8 * fem, 0 * fem),
-                              child: Text(
-                                'rent',
-                                textAlign: TextAlign.right,
-                                style: SafeGoogleFont(
-                                  'Montserrat',
-                                  fontSize: 16 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2175 * ffem / fem,
-                                  color: Color(0xff3d003e),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              // m15Z (I0:559;0:1437)
-                              '50 dt',
-                              textAlign: TextAlign.right,
-                              style: SafeGoogleFont(
-                                'Montserrat',
-                                fontSize: 21 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2175 * ffem / fem,
-                                color: Color(0xff3d003e),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        // haibikesdurofullseLdd (I0:559;0:1433)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 5 * fem),
-                        child: Text(
-                          'Haibike Sduro FullSeven',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        // available3H9 (I0:559;0:1432)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 0 * fem),
-                        child: Text(
-                          '1 Available',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: Colors.grey[200],
-                  ),
-                  padding: EdgeInsets.all(10),
-                  height: 350,
-                  width: 350,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // bitmapLbh (I0:559;0:1438)
-                        margin: EdgeInsets.fromLTRB(
-                            19.31 * fem, 0 * fem, 0 * fem, 26 * fem),
-                        width: 230 * fem,
-                        height: 132 * fem,
-                        child: Image.asset(
-                          'assets/app-design/images/velo2.jpg',
-                        ),
-                      ),
-                      Container(
-                        // distance4nb (I0:559;0:1434)
-                        margin: EdgeInsets.fromLTRB(
-                            40 * fem, 0 * fem, 40 * fem, 17 * fem),
-                        padding: EdgeInsets.fromLTRB(
-                            31 * fem, 14 * fem, 36 * fem, 15 * fem),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(27.5 * fem),
-                          gradient: LinearGradient(
-                            begin: Alignment(1.307, 1.613),
-                            end: Alignment(1.307, -1),
-                            colors: <Color>[
-                              Color(0xff009efd),
-                              Color(0xff2af598)
-                            ],
-                            stops: <double>[0, 1],
-                          ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // distanceWeb (I0:559;0:1436)
-                              margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 8 * fem, 0 * fem),
-                              child: Text(
-                                'rent',
-                                textAlign: TextAlign.right,
-                                style: SafeGoogleFont(
-                                  'Montserrat',
-                                  fontSize: 16 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2175 * ffem / fem,
-                                  color: Color(0xff3d003e),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              // m15Z (I0:559;0:1437)
-                              '50 dt',
-                              textAlign: TextAlign.right,
-                              style: SafeGoogleFont(
-                                'Montserrat',
-                                fontSize: 21 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2175 * ffem / fem,
-                                color: Color(0xff3d003e),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        // haibikesdurofullseLdd (I0:559;0:1433)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 5 * fem),
-                        child: Text(
-                          'Haibike Sduro FullSeven',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        // available3H9 (I0:559;0:1432)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 0 * fem),
-                        child: Text(
-                          '1 Available',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: Colors.grey[200],
-                  ),
-                  padding: EdgeInsets.all(10),
-                  height: 350,
-                  width: 350,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // bitmapLbh (I0:559;0:1438)
-                        margin: EdgeInsets.fromLTRB(
-                            19.31 * fem, 0 * fem, 0 * fem, 26 * fem),
-                        width: 230 * fem,
-                        height: 132 * fem,
-                        child: Image.asset(
-                          'assets/app-design/images/image.png',
-                        ),
-                      ),
-                      Container(
-                        // distance4nb (I0:559;0:1434)
-                        margin: EdgeInsets.fromLTRB(
-                            40 * fem, 0 * fem, 40 * fem, 17 * fem),
-                        padding: EdgeInsets.fromLTRB(
-                            31 * fem, 14 * fem, 36 * fem, 15 * fem),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(27.5 * fem),
-                          gradient: LinearGradient(
-                            begin: Alignment(1.307, 1.613),
-                            end: Alignment(1.307, -1),
-                            colors: <Color>[
-                              Color(0xff009efd),
-                              Color(0xff2af598)
-                            ],
-                            stops: <double>[0, 1],
-                          ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // distanceWeb (I0:559;0:1436)
-                              margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 8 * fem, 0 * fem),
-                              child: Text(
-                                'rent',
-                                textAlign: TextAlign.right,
-                                style: SafeGoogleFont(
-                                  'Montserrat',
-                                  fontSize: 16 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2175 * ffem / fem,
-                                  color: Color(0xff3d003e),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              // m15Z (I0:559;0:1437)
-                              '50 dt',
-                              textAlign: TextAlign.right,
-                              style: SafeGoogleFont(
-                                'Montserrat',
-                                fontSize: 21 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2175 * ffem / fem,
-                                color: Color(0xff3d003e),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        // haibikesdurofullseLdd (I0:559;0:1433)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 5 * fem),
-                        child: Text(
-                          'Haibike Sduro FullSeven',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        // available3H9 (I0:559;0:1432)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 0 * fem),
-                        child: Text(
-                          '1 Available',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: Colors.grey[200],
-                  ),
-                  padding: EdgeInsets.all(10),
-                  height: 350,
-                  width: 350,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // bitmapLbh (I0:559;0:1438)
-                        margin: EdgeInsets.fromLTRB(
-                            19.31 * fem, 0 * fem, 0 * fem, 26 * fem),
-                        width: 230 * fem,
-                        height: 132 * fem,
-                        child: Image.asset(
-                          'assets/app-design/images/velo2.jpg',
-                        ),
-                      ),
-                      Container(
-                        // distance4nb (I0:559;0:1434)
-                        margin: EdgeInsets.fromLTRB(
-                            40 * fem, 0 * fem, 40 * fem, 17 * fem),
-                        padding: EdgeInsets.fromLTRB(
-                            31 * fem, 14 * fem, 36 * fem, 15 * fem),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(27.5 * fem),
-                          gradient: LinearGradient(
-                            begin: Alignment(1.307, 1.613),
-                            end: Alignment(1.307, -1),
-                            colors: <Color>[
-                              Color(0xff009efd),
-                              Color(0xff2af598)
-                            ],
-                            stops: <double>[0, 1],
-                          ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // distanceWeb (I0:559;0:1436)
-                              margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 8 * fem, 0 * fem),
-                              child: Text(
-                                'rent',
-                                textAlign: TextAlign.right,
-                                style: SafeGoogleFont(
-                                  'Montserrat',
-                                  fontSize: 16 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2175 * ffem / fem,
-                                  color: Color(0xff3d003e),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              // m15Z (I0:559;0:1437)
-                              '50 dt',
-                              textAlign: TextAlign.right,
-                              style: SafeGoogleFont(
-                                'Montserrat',
-                                fontSize: 21 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2175 * ffem / fem,
-                                color: Color(0xff3d003e),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        // haibikesdurofullseLdd (I0:559;0:1433)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 5 * fem),
-                        child: Text(
-                          'Haibike Sduro FullSeven',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        // available3H9 (I0:559;0:1432)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 0 * fem),
-                        child: Text(
-                          '1 Available',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50.0),
-                    color: Colors.grey[200],
-                  ),
-                  padding: EdgeInsets.all(10),
-                  height: 350,
-                  width: 350,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        // bitmapLbh (I0:559;0:1438)
-                        margin: EdgeInsets.fromLTRB(
-                            19.31 * fem, 0 * fem, 0 * fem, 26 * fem),
-                        width: 230 * fem,
-                        height: 132 * fem,
-                        child: Image.asset(
-                          'assets/app-design/images/velo2.jpg',
-                        ),
-                      ),
-                      Container(
-                        // distance4nb (I0:559;0:1434)
-                        margin: EdgeInsets.fromLTRB(
-                            40 * fem, 0 * fem, 40 * fem, 17 * fem),
-                        padding: EdgeInsets.fromLTRB(
-                            31 * fem, 14 * fem, 36 * fem, 15 * fem),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(27.5 * fem),
-                          gradient: LinearGradient(
-                            begin: Alignment(1.307, 1.613),
-                            end: Alignment(1.307, -1),
-                            colors: <Color>[
-                              Color(0xff009efd),
-                              Color(0xff2af598)
-                            ],
-                            stops: <double>[0, 1],
-                          ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              // distanceWeb (I0:559;0:1436)
-                              margin: EdgeInsets.fromLTRB(
-                                  0 * fem, 0 * fem, 8 * fem, 0 * fem),
-                              child: Text(
-                                'rent',
-                                textAlign: TextAlign.right,
-                                style: SafeGoogleFont(
-                                  'Montserrat',
-                                  fontSize: 16 * ffem,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2175 * ffem / fem,
-                                  color: Color(0xff3d003e),
-                                ),
-                              ),
-                            ),
-                            Text(
-                              // m15Z (I0:559;0:1437)
-                              '50 dt',
-                              textAlign: TextAlign.right,
-                              style: SafeGoogleFont(
-                                'Montserrat',
-                                fontSize: 21 * ffem,
-                                fontWeight: FontWeight.w600,
-                                height: 1.2175 * ffem / fem,
-                                color: Color(0xff3d003e),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        // haibikesdurofullseLdd (I0:559;0:1433)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 5 * fem),
-                        child: Text(
-                          'Haibike Sduro FullSeven',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w400,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        // available3H9 (I0:559;0:1432)
-                        margin: EdgeInsets.fromLTRB(
-                            2 * fem, 0 * fem, 0 * fem, 0 * fem),
-                        child: Text(
-                          '1 Available',
-                          style: SafeGoogleFont(
-                            'Montserrat',
-                            fontSize: 18 * ffem,
-                            fontWeight: FontWeight.w600,
-                            height: 1.2175 * ffem / fem,
-                            color: Color(0xff3d003e),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),*/
             ],
           ),
         ),

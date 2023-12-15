@@ -8,6 +8,7 @@ import 'package:myapp/utils.dart';
 import 'package:http/http.dart' as http;
 
 import '../main.dart';
+import '../models/profileModel.dart';
 import '../models/veloModele.dart';
 import '../service/links.dart';
 
@@ -21,6 +22,19 @@ class _VeloListState extends State<VeloList> {
   void initState() {
     super.initState();
     _Datas = getAll();
+    profilData = getClientById();
+  }
+
+  Future<profilModel>? profilData;
+  Future<profilModel> getClientById() async {
+    String Url = "$getUserById${sharedPref?.getString("id")}";
+    http.Response futureprofil = await http.get(Uri.parse(Url));
+    sharedPref?.setInt("wallet", jsonDecode(futureprofil.body)["wallet"]);
+    if ((futureprofil.statusCode == 200) || (futureprofil.statusCode == 201)) {
+      return profilModel.fromJson(json.decode(futureprofil.body));
+    } else {
+      throw Exception('can not load post data');
+    }
   }
 
   List<BicycleModel> mesData = [];
@@ -39,29 +53,6 @@ class _VeloListState extends State<VeloList> {
           .toList();
     } else {
       throw Exception('Vérifier votre connexion');
-    }
-  }
-
-  Future patchElem(id, prix) async {
-    try {
-      String Url = "$updateVelo${id}";
-      print("$updateVelo${id}");
-      await http
-          .put(Uri.parse(Url),
-              headers: {
-                "Accept": "application/json",
-                "content-type": "application/json"
-              },
-              body: jsonEncode({"reserved": true}))
-          .then((response) {
-        if ((response.statusCode == 200) || response.statusCode == 201) {
-          addReservation(prix, id);
-        } else {
-          print("error");
-        }
-      });
-    } catch (e) {
-      print(e.toString());
     }
   }
 
@@ -106,6 +97,76 @@ class _VeloListState extends State<VeloList> {
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future patchElem(id, sommP) async {
+    if (sharedPref!.getInt("wallet")! > sommP) {
+      try {
+        String Url = "$updateVelo${id}";
+        print("$updateVelo${id}");
+        await http
+            .put(Uri.parse(Url),
+                headers: {
+                  "Accept": "application/json",
+                  "content-type": "application/json"
+                },
+                body: jsonEncode({"reserved": true}))
+            .then((response) {
+          if ((response.statusCode == 200) || response.statusCode == 201) {
+            patchUser(sharedPref!.getInt("wallet")! - sommP);
+            addReservation(sommP, id);
+            setState(() {
+              _Datas = getAll();
+            });
+          } else {
+            print("error");
+          }
+        });
+      } catch (e) {
+        print(e.toString());
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          "load your wallet first !!",
+          style: TextStyle(fontSize: 25),
+        ),
+        backgroundColor: Color(0xff7CDDC4),
+        elevation: 400,
+      ));
+    }
+  }
+
+  Future patchUser(somme) async {
+    try {
+      String Url = "$updateuser${sharedPref?.getString("id")}";
+      await http
+          .put(Uri.parse(Url),
+              headers: {
+                "Accept": "application/json",
+                "content-type": "application/json"
+              },
+              body: jsonEncode({"wallet": somme}))
+          .then((response) {
+        if ((response.statusCode == 200) || response.statusCode == 201) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(
+              "wallet updated !!",
+              style: TextStyle(fontSize: 25),
+            ),
+            backgroundColor: Color(0xff7CDDC4),
+            elevation: 400,
+          ));
+          setState(() {
+            profilData = getClientById();
+          });
+        } else {
+          print("error");
+        }
+      });
+    } catch (e) {
+      print(e.toString());
     }
   }
 

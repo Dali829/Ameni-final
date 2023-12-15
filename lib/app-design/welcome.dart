@@ -93,7 +93,7 @@ class _welcomeState extends State<welcome> {
                 body: jsonEncode({"reserved": true}))
             .then((response) {
           if ((response.statusCode == 200) || response.statusCode == 201) {
-            patchUser(-sommP);
+            patchUser(sharedPref!.getInt("wallet")! - sommP);
             addReservation(sommP, id);
             setState(() {
               _Datas = getAll();
@@ -276,10 +276,10 @@ class _welcomeState extends State<welcome> {
                     ),
                   ),
                   validator: (val) {
-                    if (val!.length < 3) {
-                      return "error";
+                    if (val!.length < 10) {
+                      return "error wallet";
                     } else {
-                      return "null";
+                      return null;
                     }
                   },
                 ),
@@ -295,7 +295,7 @@ class _welcomeState extends State<welcome> {
               TextButton(
                 child: const Text('Load'),
                 onPressed: () {
-                  if (Input_controller.text.length > 3) {
+                  if (_formKey.currentState!.validate()) {
                     patchUser(sommeEx + 100);
 
                     Timer(Duration(seconds: 3), () {

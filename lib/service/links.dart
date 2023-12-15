@@ -20,3 +20,5 @@ const String getUsers = "$linkServer/users";
 const String postreservation = "$linkServer/reservation";
 // get reservation By Id
 const String getreservation = "$linkServer/reservation/";
+// update wallet
+const String updateWallet = "$linkServer/users/updateWallet/";
